@@ -43,7 +43,7 @@ pipenv --python 3.12
 
 これにより、指定されたバージョンのPython仮想環境が作成されます。インストールが成功すると、`Pipfile`というファイルがプロジェクトに作成され、環境設定が管理されます。
 
-### 6. 仮想環境のアクティベート
+### 5. 仮想環境のアクティベート
 
 仮想環境をアクティベートするには、以下のコマンドを実行します。
 
@@ -54,7 +54,7 @@ pipenv shell
 
 これで、仮想環境内でPythonのスクリプトやコマンドを実行できるようになります。
 
-### 8. 仮想環境の終了
+### 6. 仮想環境の終了
 
 仮想環境を終了するには、以下のコマンドでシェルを抜けます。
 
@@ -63,15 +63,8 @@ exit
 
 ```
 
-### 5. Flaskのインストール
+# Flask
+### 1.[インストール](https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/installation.html#install-flask)
 ```bash
-mkdir flask-todo-project
-cd flask-todo-project
-
-```
-
-```bash
-pipenv shell
 pipenv install Flask
-exit
 ```

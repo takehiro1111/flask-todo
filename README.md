@@ -62,3 +62,16 @@ pipenv shell
 exit
 
 ```
+
+### 5. Flaskのインストール
+```bash
+mkdir flask-todo-project
+cd flask-todo-project
+
+```
+
+```bash
+pipenv shell
+pipenv install Flask
+exit
+```

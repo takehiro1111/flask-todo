@@ -64,6 +64,7 @@ mysql> select * from todos;
 
 - 認証
   - DBに保存されているemail, password_hashの値と一致するか
+  - DBにパスワードを保存する際はハッシュ化(sha256)を用いる。
 
 - 認可
   - JWTを想定

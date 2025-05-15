@@ -21,3 +21,54 @@ mysql> select * from todos;
 +----+-----------+-----------------------------------+---------+--------------+---------------------+---------------------+------------+
 3 rows in set (0.001 sec)
 ```
+
+## 機能
+### TODO
+#### API仕様
+```md
+- メモ一覧画面
+  - GET /todos
+- メモ詳細画面
+  - GET /todos/:id
+- 新規作成
+  - GET /todos/new
+    - フォーム画面の表示
+  - POST /todos
+- 編集
+  - GET /todos/:id/edit
+    - 編集画面の表示
+  - POST /todos/:id
+- 削除
+  - POST /todos/:id/delete
+  - GET /todos/:id/delete/result
+    - 削除結果の画面表示
+- ユーザー詳細
+  - GET /user/:id
+- ユーザー編集
+  - GET /user/:id/edit
+- ログイン機能
+  - GET /login
+  - POST /login
+- ログアウト機能
+  - GET /logout
+- ユーザー登録
+  - GET /register
+  - POST /login
+```
+
+#### その他機能
+```md
+- DBの活用
+  - ORMとして`SQL Alchemy`を用いてMySQLを用いる。
+    - MySQLはdocker-composeを想定
+
+- 認証
+  - DBに保存されているemail, password_hashの値と一致するか
+
+- 認可
+  - JWTを想定
+
+- 画面表示
+  - SSRでtemplates配下のhtmlを表示
+```
+

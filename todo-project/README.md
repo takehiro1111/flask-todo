@@ -53,7 +53,7 @@ mysql> select * from todos;
   - GET /logout
 - ユーザー登録
   - GET /register
-  - POST /login
+  - POST /register
 ```
 
 #### その他機能

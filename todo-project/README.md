@@ -1,4 +1,10 @@
 
+## アプリケーションの実行
+```zsh
+cd {path_to_your_dir}/menta-flask-todo/todo-project
+flask run --debug
+```
+
 ## テストデータを挿入しDBの初期時の動作確認の結果
 ```sql
 mysql> select * from users;
@@ -22,10 +28,55 @@ mysql> select * from todos;
 3 rows in set (0.001 sec)
 ```
 
+## テーブル定義
+```zsh
+mysql> SHOW COLUMNS FROM todos;
++--------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type         | Null | Key | Default           | Extra                                         |
++--------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| id           | int          | NO   | PRI | NULL              | auto_increment                                |
+| title        | varchar(100) | NO   |     | NULL              |                                               |
+| body         | text         | YES  |     | NULL              |                                               |
+| is_completed | tinyint(1)   | NO   | MUL | 1                 |                                               |
+| user_id      | int          | NO   | MUL | NULL              |                                               |
+| created_at   | timestamp    | NO   | MUL | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at   | timestamp    | NO   | MUL | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+| deleted_at   | timestamp    | YES  | MUL | NULL              |                                               |
++--------------+--------------+------+-----+-------------------+-----------------------------------------------+
+8 rows in set (0.01 sec)
+
+mysql> SHOW COLUMNS FROM users;
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field         | Type         | Null | Key | Default           | Extra                                         |
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| id            | int          | NO   | PRI | NULL              | auto_increment                                |
+| name          | varchar(100) | NO   |     | NULL              |                                               |
+| email         | varchar(255) | NO   | UNI | NULL              |                                               |
+| password_hash | varchar(500) | NO   |     | NULL              |                                               |
+| created_at    | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at    | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+| deleted_at    | timestamp    | YES  |     | NULL              |                                               |
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.01 sec)
+```
+
 ## 機能
 ### TODO
 #### API仕様
 ```md
+## 認証
+- ユーザー登録
+  - GET /auth/register
+  - POST /auth/register
+
+- ログイン機能
+  - GET /auth/login
+  - POST /auth/login
+
+- ログアウト機能
+  - GET /auth/logout
+
+## CRUD
 - メモ一覧画面
   - GET /todos
 - メモ詳細画面
@@ -46,14 +97,6 @@ mysql> select * from todos;
   - GET /user/:id
 - ユーザー編集
   - GET /user/:id/edit
-- ログイン機能
-  - GET /login
-  - POST /login
-- ログアウト機能
-  - GET /logout
-- ユーザー登録
-  - GET /register
-  - POST /register
 ```
 
 #### その他機能

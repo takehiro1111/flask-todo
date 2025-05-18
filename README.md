@@ -68,3 +68,36 @@ exit
 ```bash
 pipenv install Flask
 ```
+
+
+## docker composeによるMySQLの利用
+```zsh
+# compose.yamlのカレントへ移動
+cd docker/db
+
+# 起動
+docker compose up -d
+
+# MySQLの中へログイン
+# PWは、./docker/.envへ記載
+docker compose exec mysql mysql -u root -p
+
+# 停止
+docker compose stop
+
+
+# 削除
+docker compose down
+```
+
+## SQL Alchemyの操作
+### テーブル作成/削除
+```zsh
+# todo-projectのルートで実行する。
+
+## テーブルの一括作成
+flask create-tables
+
+## テーブルの一括削除
+flask drop-tables
+```

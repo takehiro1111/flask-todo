@@ -1,6 +1,6 @@
-from app import app
+from app import todo_app
 
-app.run(debug=True, port=3000)
+todo_app.run(debug=True, port=3000)
 
 if __name__ == "__main__":
-  app.run(debug=True, port=3000)
+  todo_app.run(debug=True, port=3000)

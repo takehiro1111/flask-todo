@@ -1,6 +1,6 @@
 """認証に関するview."""
 
-from flask import Blueprint, request, render_template, redirect, url_for, session
+from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email
 from flask_wtf import FlaskForm
@@ -42,9 +42,11 @@ def register():
     try:
       # DBにinsertの処理を追加する。
       user_process.insert_user(username, email, password_hash)
+      flash("ユーザー登録が完了しました。ログインしてください。")
       return  redirect(url_for("auth.login"))
     
     except ValueError as e:
+      flash("ユーザー登録に失敗しました。再度入力してください。")
       return render_template("auth/register.html", form=form, error=str(e))
       
   return render_template("auth/register.html", form=form)
@@ -60,21 +62,22 @@ def login():
     
     user_process = UserProcess()
     
-    try:
-      registered_user = user_process.select_user_for_login(email)
     
-      if registered_user and check_password_hash(registered_user.password_hash, password):
-        # セッション情報の管理
-        
-        print("ログイン成功",registered_user.name)
-        return redirect(url_for("todos"))
-      
-    except ValueError as e:
-      return render_template("auth/login.html", form=form, error=str(e))
+    registered_user = user_process.select_user_for_login(email)
     
-    finally:
-      user_process.close()
+    if registered_user and check_password_hash(registered_user.password_hash, password):
+      # セッション情報の管理
       
-    return render_template("auth/login.html", form=form, error="メールアドレスまたはパスワードが間違っています。")
+      print("ログイン成功",registered_user.name)
+      return redirect(url_for("app.todos"))
+    else:
+      flash("メールアドレスまたはパスワードが間違っています。")
+      return render_template("auth/login.html", form=form)
       
   return render_template("auth/login.html", form=form)
+
+@auth_bp.route("/logout", methods=["GET"])
+def logout():
+  # セッション情報の削除
+  session.clear()
+  return render_template("auth/logout.html")

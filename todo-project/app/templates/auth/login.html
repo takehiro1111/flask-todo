@@ -4,6 +4,16 @@
 
 {% block body %}
   <h1>ログイン画面</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  
     <form method="POST" action="{{ url_for('auth.login') }}">
     {{ form.hidden_tag() }}
     <p>

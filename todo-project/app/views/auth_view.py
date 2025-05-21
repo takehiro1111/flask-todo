@@ -5,6 +5,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, login_user, logout_user
 
 from app.models.users import UserProcess
 
@@ -65,16 +66,25 @@ def login():
     
     registered_user = user_process.select_user_for_login(email)
     
-    if registered_user and check_password_hash(registered_user.password_hash, password):
-      # セッション情報の管理
+    try: 
+      if registered_user and check_password_hash(registered_user.password_hash, password):
+        # セッション情報の管理
+        session['user_id'] = registered_user.id 
+        session['user_name'] = registered_user.name 
+        
+        print("ログイン成功",registered_user.name)
+        return redirect(url_for("app.get_todos"))
+      else:
+        flash("メールアドレスまたはパスワードが間違っています。")
+        return render_template("auth/login.html", form=form)
       
-      print("ログイン成功",registered_user.name)
-      return redirect(url_for("app.todos"))
-    else:
-      flash("メールアドレスまたはパスワードが間違っています。")
-      return render_template("auth/login.html", form=form)
+    except ValueError as e:
+      flash(f"ログイン処理中にエラーが発生しました: {e}")
+    finally:
+      user_process.close()
       
   return render_template("auth/login.html", form=form)
+
 
 @auth_bp.route("/logout", methods=["GET"])
 def logout():

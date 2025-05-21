@@ -3,6 +3,27 @@
 {% block title %}todos{% endblock %}
 
 {% block body %}
+  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
   <h1>TODO一覧</h1>
+    <ul>
+    {% if todos %}
+      {% for todo in todos %}
+        <li>
+        {# aタグの中身は修正予定 #}
+        <a href="{{ url_for('app.get_todos') }}">{{ todo.title }}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+    </ul>
+  
+  <p><a href="{{ url_for('app.create_todo') }}">新規作成</a></p>
   <p><a href="{{ url_for('auth.logout') }}">ログアウト</a></p>
 {% endblock %}

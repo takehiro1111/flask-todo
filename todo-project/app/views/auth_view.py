@@ -1,13 +1,25 @@
-"""認証に関するview."""
+"""認証に関するview.
+
+- ユーザー登録
+  - GET /auth/register
+  - POST /auth/register
+
+- ログイン機能
+  - GET /auth/login
+  - POST /auth/login
+
+- ログアウト機能
+  - GET /auth/logout
+"""
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_user, logout_user
 
 from app.models.users import UserProcess
+from utils.messages import FLASH_MESSAGES
 
 
 """ブループリントの作成"""
@@ -30,24 +42,24 @@ class AuthLogin(FlaskForm):
 """ルーティングの作成"""
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
+  """ユーザー登録"""
+  
   form=AuthRegister()
   
   if request.method == "POST" and form.validate_on_submit():
     username = form.username.data
     email = form.email.data
     password_hash = generate_password_hash(form.password.data)
-    print(username, email, password_hash)
 
     user_process = UserProcess()
     
     try:
-      # DBにinsertの処理を追加する。
       user_process.insert_user(username, email, password_hash)
-      flash("ユーザー登録が完了しました。ログインしてください。")
+      flash(FLASH_MESSAGES["authentication"]["USER_REGISTERED_SUCCESS"])
       return  redirect(url_for("auth.login"))
     
     except ValueError as e:
-      flash("ユーザー登録に失敗しました。再度入力してください。")
+      flash(FLASH_MESSAGES["authentication"]["USER_REGISTERED_ERROR"])
       return render_template("auth/register.html", form=form, error=str(e))
       
   return render_template("auth/register.html", form=form)
@@ -55,6 +67,8 @@ def register():
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
+  """ログイン処理"""
+  
   form=AuthLogin()
   
   if request.method == "POST" and form.validate_on_submit():
@@ -68,18 +82,16 @@ def login():
     
     try: 
       if registered_user and check_password_hash(registered_user.password_hash, password):
-        # セッション情報の管理
         session['user_id'] = registered_user.id 
         session['user_name'] = registered_user.name 
-        
-        print("ログイン成功",registered_user.name)
-        return redirect(url_for("app.get_todos"))
+
+        return redirect(url_for("todos.get_todos"))
       else:
-        flash("メールアドレスまたはパスワードが間違っています。")
+        flash(FLASH_MESSAGES["authentication"]["USER_LOGIN_ERROR"])
         return render_template("auth/login.html", form=form)
       
     except ValueError as e:
-      flash(f"ログイン処理中にエラーが発生しました: {e}")
+      flash(f"{FLASH_MESSAGES["authentication"]["USER_LOGIN_EXCEPTION"]}: {e}")
     finally:
       user_process.close()
       
@@ -88,6 +100,6 @@ def login():
 
 @auth_bp.route("/logout", methods=["GET"])
 def logout():
-  # セッション情報の削除
+  """ログアウト処理"""
   session.clear()
   return render_template("auth/logout.html")

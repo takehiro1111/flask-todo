@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}編集{% endblock %}
+
+{% block body %}
+  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+  <h1>ユーザー情報の編集</h1>
+    <form method="POST" action="{{ url_for('user.detail_user', user_id=user.id) }}">
+      {{ form.hidden_tag() }}
+      <p>
+      {{ form.name.label }} <br>
+      {{ form.name(size=32) }}<br>
+      {% for error in form.name.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.email.label }} <br>
+      {{ form.email(size=50) }}<br>
+      {% for error in form.email.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.password.label }} <br>
+      {{ form.password(size=50) }}<br>
+      {% for error in form.password.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+    </form>
+  <p><a href="{{ url_for('user.detail_user', user_id=user.id) }}">詳細画面に戻る</a></p>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}todos-new{% endblock %}
+{% block title %}編集{% endblock %}
 
 {% block body %}
   {% with messages = get_flashed_messages() %}
@@ -12,8 +12,8 @@
           </ul>
         {% endif %}
       {% endwith %}
-  <h1>TODOの作成</h1>
-    <form method="POST" action="{{ url_for('app.get_todos') }}">
+  <h1>TODOの編集</h1>
+    <form method="POST" action="{{ url_for('todos.detail_todo', todo_id=todo.id) }}">
       {{ form.hidden_tag() }}
     <p>
       {{ form.title.label }} <br>
@@ -31,4 +31,5 @@
     </p>
     <p>{{ form.submit() }}</p>
     </form>
+    <p><a href="{{url_for('todos.detail_todo', todo_id=todo.id)}}">詳細画面へ戻る</a></p>
 {% endblock %}

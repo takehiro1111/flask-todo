@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask
-from flask_login import LoginManager, UserMixin, login_user, logout_user
 
 flask_app = Flask(__name__)
 
@@ -16,8 +15,11 @@ def create_app(app):
   from app.views.auth_view import auth_bp
   app.register_blueprint(auth_bp)
   
-  from app.views.todo_view import crud_bp
-  app.register_blueprint(crud_bp)
+  from app.views.todos_view import todo_bp
+  app.register_blueprint(todo_bp)
+  
+  from app.views.user_view import user_bp
+  app.register_blueprint(user_bp)
   
   return app
 

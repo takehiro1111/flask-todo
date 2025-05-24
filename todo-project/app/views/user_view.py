@@ -10,7 +10,7 @@
 """
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
-from wtforms import StringField, TextAreaField, SubmitField, ValidationError, validators
+from wtforms import StringField, TextAreaField, SubmitField, ValidationError, validators, PasswordField
 from wtforms.validators import DataRequired, Email, InputRequired, NumberRange
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -25,7 +25,7 @@ user_bp = Blueprint("user", __name__, url_prefix="/user", template_folder="templ
 class UpdateUserInfo(FlaskForm):
   name = StringField("名前", validators=[DataRequired(),validators.Length(min=4, max=25)])
   email = TextAreaField("Eメールアドレス",validators=[InputRequired(), validators.Length(min=4, max=500)])
-  password = StringField("パスワード", validators=[DataRequired(),validators.Length(min=4, max=30)])
+  password = PasswordField("パスワード", validators=[DataRequired(),validators.Length(min=4, max=30)])
   submit = SubmitField(label=("登録"))
 
 """初期化"""

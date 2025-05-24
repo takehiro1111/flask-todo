@@ -4,7 +4,6 @@
 pipenv install Flask
 ```
 
-
 ## docker composeによるMySQLの利用
 ```zsh
 # compose.yamlのカレントへ移動
@@ -48,7 +47,7 @@ flask run --debug
 ## 機能
 ### TODO
 #### API仕様
-```
+```md
 ## CRUD
 ### Auth
 - ユーザー登録
@@ -91,7 +90,7 @@ flask run --debug
 ```
 
 #### その他機能(付け足し)
-```
+```md
 - DBの活用
   - ORMとして`SQL Alchemy`を用いてMySQLを用いる。
     - MySQLはdocker-composeを想定

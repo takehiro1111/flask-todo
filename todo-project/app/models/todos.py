@@ -1,13 +1,13 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from app.models.session import Session
+from app.models.session import SessionLocal
 from app.models.create_tables import Todos
 from utils.messages import ERROR_MESSAGES
 
 class Todo:
   def __init__(self):
-    self.session = Session()
+    self.session = SessionLocal()
     
   def find_by_user(self, id):
     """ログイン時のTodoの取得"""

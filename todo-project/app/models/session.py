@@ -21,7 +21,7 @@ engine = create_engine(
   )
 
 # セッションファクトリー作成
-Session = sessionmaker(
+SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine
@@ -36,22 +36,15 @@ def db_session():
   from app.models.todos import Todo
   from app.models.users import User
   
-  # db = Session()
-  
   todo_model = Todo()
   user_model = User()
-  
-  # try:
-  #   yield db
-  # except Exception:
-  #   db.rollback()
-  #   raise
-  # finally:
-  #   db.close()
-  
 
   try:
       yield todo_model, user_model
+  except Exception:
+      todo_model.session.rollback() 
+      user_model.session.rollback()
+      raise
   finally:
-      todo_model.close()
-      user_model.close()
+      todo_model.session.close()  
+      user_model.session.close()

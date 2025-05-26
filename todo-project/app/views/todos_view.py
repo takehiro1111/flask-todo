@@ -99,13 +99,15 @@ def detail_todo(todo_id):
         body = update_form.body.data
         
         # レコードの更新
-        updated_todo = current_todo_model.update_todo_by_id(title, body, todo_id)
+        current_todo_model.update_todo_by_id(title, body, todo_id)
+        
+        updated_todo = current_todo_model.select_todo_by_id(todo_id)
         
         flash(FLASH_MESSAGES["todos"]["UPDATED_SUCCESS"])
         return render_template("todo/todos_detail.html", todo=updated_todo)
       
-      todo = current_todo_model.select_todo_by_id(todo_id)
       
+      todo = current_todo_model.select_todo_by_id(todo_id)
       return render_template("todo/todos_detail.html", todo=todo)
     
   except ValueError as e:

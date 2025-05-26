@@ -1,13 +1,13 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from app.models.session import Session
+from app.models.session import SessionLocal
 from app.models.create_tables import Users
 from utils.messages import ERROR_MESSAGES
 
 class User:
   def __init__(self):
-    self.session = Session()
+    self.session = SessionLocal()
 
   # ユーザー情報の追加
   def insert_user(self, name: str, email: str, password_hash: str):
@@ -47,7 +47,7 @@ class User:
   
   def delete_user_by_id(self, user_id: int):
     """ユーザー情報の論理削除"""
-    result = self.session.query(Users).filter(Users.id == user_id, Users.deleted_at == None).delete({
+    result = self.session.query(Users).filter(Users.id == user_id, Users.deleted_at == None).update({
       Users.deleted_at: datetime.now(ZoneInfo("Asia/Tokyo"))
     }, synchronize_session=False)
     

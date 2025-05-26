@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, g
 
 flask_app = Flask(__name__)
 
@@ -20,6 +20,14 @@ def create_app(app):
   
   from app.views.user_view import user_bp
   app.register_blueprint(user_bp)
+  
+  @app.teardown_appcontext
+  def close_db_session(exception=None):
+    if hasattr(g, 'todo_model'):
+        g.todo_model.session.close()
+    
+    if hasattr(g, 'user_model'):
+        g.user_model.session.close()
   
   return app
 

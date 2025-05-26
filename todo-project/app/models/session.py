@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from contextlib import contextmanager
+from flask import g, current_app
 
 load_dotenv()
 
@@ -36,8 +37,19 @@ def db_session():
   from app.models.todos import Todo
   from app.models.users import User
   
-  todo_model = Todo()
-  user_model = User()
+  if hasattr(g, 'todo_model') and hasattr(g, 'user_model'):
+      # 既に作成済みの場合はそれを再利用
+      todo_model = g.todo_model
+      user_model = g.user_model
+  else:
+    todo_model = Todo()
+    user_model = User()
+    
+    g.todo_model = todo_model
+    g.user_model = user_model
+  
+    if current_app.config.get('DEBUG', False):
+        current_app.logger.debug('新しいデータベースセッションを作成しました')
 
   try:
       yield todo_model, user_model
@@ -46,5 +58,6 @@ def db_session():
       user_model.session.rollback()
       raise
   finally:
-      todo_model.session.close()  
-      user_model.session.close()
+    pass
+      # todo_model.session.close()  
+      # user_model.session.close()

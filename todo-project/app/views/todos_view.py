@@ -22,15 +22,13 @@ from flask import Blueprint, request, render_template, redirect, url_for, sessio
 from wtforms import StringField, TextAreaField, SubmitField, validators
 from wtforms.validators import DataRequired, InputRequired
 from flask_wtf import FlaskForm
+from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
-from app.models.todos import TodoProcess
-from app.models.users import UserProcess
+from app.models.session import db_session
 from utils.messages import FLASH_MESSAGES
 
 """ブループリントの作成"""
 todo_bp = Blueprint("todos", __name__, url_prefix="/todos", template_folder="templates")
-
-
 
 """フォームの作成"""
 class CreateNewTodos(FlaskForm):
@@ -45,48 +43,46 @@ class UpdateTodos(FlaskForm):
   
 class DeleteTodos(FlaskForm):
   submit = SubmitField(label=("削除"))
-  
-"""初期化"""
-todo_process = TodoProcess()
-user_process = UserProcess()
 
 
 """ルーティングの作成"""
 @todo_bp.route("/", methods=["GET", "POST"])
 def get_todos():
   """Todoリストの一覧表示"""
-  
-  form=CreateNewTodos()
-  user_id = session.get("user_id")
-  user =  user_process.select_user_by_id(user_id)
-  
-  if request.method == "POST" and form.validate_on_submit():
-    title = form.title.data
-    body = form.body.data
-    
-    todo_process.insert_todo_record(title, body, user_id)
-    todos = todo_process.select_todo_of_login_user(user_id)
-    flash(FLASH_MESSAGES["todos"]["CREATED_SUCCESS"])
-    return render_template("todo/todos.html", todos=todos, user=user, current_user_id=user_id)
-  elif request.method == "POST" and form.validate_on_submit() is False:
-    flash(FLASH_MESSAGES["todos"]["CREATED_ERROR"])
-    return render_template("todo/todos_new.html", form=form)
-
   try:
-    todos = todo_process.select_todo_of_login_user(user_id)
-    return render_template("todo/todos.html", todos=todos, current_user_id=user_id, user=user)
+    with db_session() as (current_todo_model, current_user_model):
+      form=CreateNewTodos()
+      user_id = session.get("user_id")
+      user =  current_user_model.select_user_by_id(user_id)
+      
+      if request.method == "POST" and form.validate_on_submit():
+        title = form.title.data
+        body = form.body.data
+        
+        current_todo_model.insert_todo(title, body, user_id)
+        todos = current_todo_model.find_by_user(user_id)
+        flash(FLASH_MESSAGES["todos"]["CREATED_SUCCESS"])
+        return render_template("todo/todos.html", todos=todos, user=user, current_user_id=user_id)
+      elif request.method == "POST" and form.validate_on_submit() is False:
+        flash(FLASH_MESSAGES["todos"]["CREATED_ERROR"])
+        return render_template("todo/todos_new.html", form=form)
+
+      
+      todos = current_todo_model.find_by_user(user_id)
+      return render_template("todo/todos.html", todos=todos, current_user_id=user_id, user=user)
+
+  # エラー時にログイン画面へリダイレクトさせて戻す。
   except ValueError as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
-    return render_template("todo/todos.html")
-  finally:
-    todo_process.close()
-    user_process.close() 
-
+    return render_template("auth/login.html", form=form)
+      
+  except (SQLAlchemyError, IntegrityError) as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
+    return render_template("auth/login.html", form=form)
 
 @todo_bp.route("/new", methods=["GET"])
 def create_todo():
   """Todoの新規作成"""
-  
   form=CreateNewTodos()
   return render_template("todo/todos_new.html", form=form)
   
@@ -94,47 +90,82 @@ def create_todo():
 @todo_bp.route("/<int:todo_id>", methods=["GET", "POST"])
 def detail_todo(todo_id):
   """Todoの詳細"""
-  
-  update_form=UpdateTodos()
-  
-  if request.method == "POST" and update_form.validate_on_submit():
-    title = update_form.title.data
-    body = update_form.body.data
+  try: 
+    with db_session() as (current_todo_model, current_user_model):
+      update_form=UpdateTodos()
+      
+      if request.method == "POST" and update_form.validate_on_submit():
+        title = update_form.title.data
+        body = update_form.body.data
+        
+        # レコードの更新
+        updated_todo = current_todo_model.update_todo_by_id(title, body, todo_id)
+        
+        flash(FLASH_MESSAGES["todos"]["UPDATED_SUCCESS"])
+        return render_template("todo/todos_detail.html", todo=updated_todo)
+      
+      todo = current_todo_model.select_todo_by_id(todo_id)
+      
+      return render_template("todo/todos_detail.html", todo=todo)
     
-    # レコードの更新
-    updated_todo = todo_process.update_todo_by_id(title, body, todo_id)
-    
-    flash(FLASH_MESSAGES["todos"]["UPDATED_SUCCESS"])
-    return render_template("todo/todos_detail.html", todo=updated_todo)
-  
-  todo = todo_process.select_todo_by_id(todo_id)
-  
-  return render_template("todo/todos_detail.html", todo=todo)
+  except ValueError as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
+    return redirect(url_for('todos.get_todos'))
+      
+  except (SQLAlchemyError, IntegrityError) as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
+    return redirect(url_for('todos.get_todos'))
 
 @todo_bp.route("/<int:todo_id>/edit", methods=["GET"])
 def edit_todo(todo_id):
   """Todoの編集"""
-  
-  form=UpdateTodos()
-  
-  todo = todo_process.select_todo_by_id(todo_id)
-  
-  return render_template("todo/todos_edit.html", form=form, todo=todo)
+  try:
+    with db_session() as (current_todo_model, current_user_model):
+      form=UpdateTodos()
+      todo = current_todo_model.select_todo_by_id(todo_id)
+      
+      return render_template("todo/todos_edit.html", form=form, todo=todo)
+
+  except ValueError as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
+    return redirect(url_for('todos.detail_todo'))
+      
+  except (SQLAlchemyError, IntegrityError) as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
+    return redirect(url_for('todos.detail_todo'))
 
 
 @todo_bp.route("/<int:todo_id>/delete", methods=["POST"])
 def delete_todo(todo_id: int):
   """削除処理"""
-  
-  todo_process.delete_todo_by_id(todo_id)
-  
-  return redirect(url_for("todos.delete_result_todo", todo_id=todo_id))
+  try:
+    with db_session() as (current_todo_model, current_user_model):
+      current_todo_model.delete_todo_by_id(todo_id)
+      
+      return redirect(url_for("todos.delete_result_todo", todo_id=todo_id))
+    
+  except ValueError as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
+    return redirect(url_for('todos.detail_todo'))
+      
+  except (SQLAlchemyError, IntegrityError) as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
+    return redirect(url_for('todos.detail_todo'))
   
   
 @todo_bp.route("/<int:todo_id>/delete/result", methods=["GET"])
 def delete_result_todo(todo_id: int):
   """削除処理の結果表示"""
+  try:
+    with db_session() as (current_todo_model, current_user_model):
+      todo = current_todo_model.select_todo_by_id(todo_id)
+    
+      return render_template("todo/todos_delete_result.html", todo=todo)
   
-  todo = todo_process.select_todo_by_id(todo_id)
-  
-  return render_template("todo/todos_delete_result.html", todo=todo)
+  except ValueError as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
+    return redirect(url_for('todos.detail_todo'))
+      
+  except (SQLAlchemyError, IntegrityError) as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
+    return redirect(url_for('todos.detail_todo'))

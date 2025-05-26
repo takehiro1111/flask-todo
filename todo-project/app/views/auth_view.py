@@ -17,10 +17,10 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
-from app.models.users import UserProcess
 from utils.messages import FLASH_MESSAGES
-
+from app.models.session import db_session
 
 """ブループリントの作成"""
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth", template_folder="templates")
@@ -43,59 +43,66 @@ class AuthLogin(FlaskForm):
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
   """ユーザー登録"""
-  
-  form=AuthRegister()
-  
-  if request.method == "POST" and form.validate_on_submit():
-    username = form.username.data
-    email = form.email.data
-    password_hash = generate_password_hash(form.password.data)
-
-    user_process = UserProcess()
-    
-    try:
-      user_process.insert_user(username, email, password_hash)
-      flash(FLASH_MESSAGES["authentication"]["USER_REGISTERED_SUCCESS"])
-      return  redirect(url_for("auth.login"))
-    
-    except ValueError as e:
-      flash(FLASH_MESSAGES["authentication"]["USER_REGISTERED_ERROR"])
-      return render_template("auth/register.html", form=form, error=str(e))
+  try:
+    with db_session() as (current_todo_model, current_user_model):
+      form=AuthRegister()
       
-  return render_template("auth/register.html", form=form)
-
+      if request.method == "POST" and form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        password_hash = generate_password_hash(form.password.data)
+        
+        
+        current_user_model.insert_user(username, email, password_hash)
+        flash(FLASH_MESSAGES["authentication"]["USER_REGISTERED_SUCCESS"])
+        return  redirect(url_for("auth.login"))
+    
+      return render_template("auth/register.html", form=form)
+      
+  except ValueError as e:
+    flash(FLASH_MESSAGES["authentication"]["USER_REGISTERED_ERROR"])
+    print(f"エラー:{e}")
+    return redirect(url_for("auth.login"))
+        
+  except (SQLAlchemyError, IntegrityError) as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
+    print(f"エラー:{e}")
+    return redirect(url_for("auth.login"))
+  
+  except Exception as e:
+    print(f"Exception:{e}")
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
   """ログイン処理"""
-  
-  form=AuthLogin()
-  
-  if request.method == "POST" and form.validate_on_submit():
-    email = form.email.data
-    password = form.password.data
-    
-    user_process = UserProcess()
-    
-    
-    registered_user = user_process.select_user_for_login(email)
-    
-    try: 
-      if registered_user and check_password_hash(registered_user.password_hash, password):
-        session['user_id'] = registered_user.id 
-        session['user_name'] = registered_user.name 
+  try: 
+    with db_session() as (current_todo_model, current_user_model):
+      form=AuthLogin()
+      
+      if request.method == "POST" and form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        
+        registered_user = current_user_model.select_user_for_login(email)
+        
+        if registered_user and check_password_hash(registered_user.password_hash, password):
+          session['user_id'] = registered_user.id 
+          session['user_name'] = registered_user.name 
 
-        return redirect(url_for("todos.get_todos"))
-      else:
-        flash(FLASH_MESSAGES["authentication"]["USER_LOGIN_ERROR"])
-        return render_template("auth/login.html", form=form)
-      
-    except ValueError as e:
-      flash(f"{FLASH_MESSAGES["authentication"]["USER_LOGIN_EXCEPTION"]}: {e}")
-    finally:
-      user_process.close()
-      
-  return render_template("auth/login.html", form=form)
+          return redirect(url_for("todos.get_todos"))
+        else:
+          flash(FLASH_MESSAGES["authentication"]["USER_LOGIN_ERROR"])
+          return render_template("auth/login.html", form=form)
+          
+      return render_template("auth/login.html", form=form)
+    
+  except ValueError as e:
+    flash(FLASH_MESSAGES["authentication"]["USER_LOGIN_EXCEPTION"])
+    return redirect(url_for("auth.login"))
+  
+  except (SQLAlchemyError, IntegrityError) as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
+    return redirect(url_for("auth.login"))
 
 
 @auth_bp.route("/logout", methods=["GET"])

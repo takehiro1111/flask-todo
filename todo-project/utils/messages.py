@@ -19,7 +19,7 @@ FLASH_MESSAGES = {
         "FETCH_ERROR": "Todo情報の取得に失敗しました。",
         "NOT_FOUND": "指定されたTODOは見つかりませんでした。"
     },
-    "user_profile": {
+    "users": {
         "UPDATED_SUCCESS": "ユーザー情報を更新しました。",
         "DELETE_FAILED": "ユーザー情報の削除が出来ませんでした。",
         "INFO_FETCH_ERROR": "ユーザー情報の取得に失敗しました。",
@@ -38,13 +38,15 @@ ERROR_MESSAGES = {
         "FETCH_FAILED": "ユーザー情報の取得に失敗しました。",
         "FETCH_BY_ID_FAILED": "idによるユーザー情報の取得に失敗しました。",
         "UPDATE_FAILED": "ユーザー情報の更新に失敗しました。",
-        "DELETE_FAILED": "ID:{}のユーザー情報の削除に失敗しました。"
+        "DELETE_FAILED": "ID:{}のユーザー情報の削除に失敗しました。",
+        "USER_ID_NOT_FOUND": "User with id {} not found",
     },
     "todos_model": {
         "FETCH_FAILED": "Todo情報の取得に失敗しました。",
         "INSERT_FAILED": "Todo情報の作成に失敗しました。",
         "GET_BY_ID_FAILED": "ID:{}のTodo情報の獲得に失敗しました。",
         "UPDATE_FAILED": "ID:{}のTodo情報の獲得に失敗しました。",
-        "DELETE_FAILED": "ID:{}のTodo情報の削除に失敗しました。"
+        "DELETE_FAILED": "ID:{}のTodo情報の削除に失敗しました。",
+        "TODO_ID_NOT_FOUND": "Todo with id {} not found",
     }
 }

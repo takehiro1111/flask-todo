@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from contextlib import contextmanager
 
 load_dotenv()
 
@@ -27,3 +28,30 @@ Session = sessionmaker(
 )
 
 Base = declarative_base()
+
+"""セッション管理"""
+@contextmanager
+def db_session():
+  """DBセッションを管理するコンテキストマネージャ"""
+  from app.models.todos import Todo
+  from app.models.users import User
+  
+  # db = Session()
+  
+  todo_model = Todo()
+  user_model = User()
+  
+  # try:
+  #   yield db
+  # except Exception:
+  #   db.rollback()
+  #   raise
+  # finally:
+  #   db.close()
+  
+
+  try:
+      yield todo_model, user_model
+  finally:
+      todo_model.close()
+      user_model.close()

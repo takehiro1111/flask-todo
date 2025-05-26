@@ -13,11 +13,13 @@ from flask import Blueprint, request, render_template, redirect, url_for, sessio
 from wtforms import StringField, TextAreaField, SubmitField, validators, PasswordField
 from wtforms.validators import DataRequired, InputRequired
 from flask_wtf import FlaskForm
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
+
 
 from utils.messages import FLASH_MESSAGES
 from app.models.session import db_session
+from utils.logger import logger
 
 """ブループリントの作成"""
 user_bp = Blueprint("user", __name__, url_prefix="/user", template_folder="templates")
@@ -37,7 +39,7 @@ def detail_user(user_id):
   try:
     with db_session() as (current_todo_model, current_user_model):
       form = UpdateUserInfo()
-      
+
       if request.method == "POST" and form.validate_on_submit():
         name = form.name.data
         email = form.email.data
@@ -54,6 +56,7 @@ def detail_user(user_id):
   
   except ValueError as e:
     flash(FLASH_MESSAGES["users"]["INFO_FETCH_ERROR"])
+    logger.warning(f"ユーザー情報の取得エラー(ValueError): {e}")
     return redirect(url_for('todos.get_todos'))
       
   except (SQLAlchemyError, IntegrityError) as e:

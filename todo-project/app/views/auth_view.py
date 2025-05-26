@@ -69,9 +69,6 @@ def register():
     print(f"エラー:{e}")
     return redirect(url_for("auth.login"))
   
-  except Exception as e:
-    print(f"Exception:{e}")
-
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
   """ログイン処理"""

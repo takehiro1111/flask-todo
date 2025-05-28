@@ -18,7 +18,8 @@
     - 削除結果の画面表示
 """
 
-from flask import Blueprint, request, render_template, redirect, url_for, session, flash
+from flask import Blueprint, request, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from wtforms import StringField, TextAreaField, SubmitField, validators
 from wtforms.validators import DataRequired, InputRequired
 from flask_wtf import FlaskForm
@@ -47,12 +48,13 @@ class DeleteTodos(FlaskForm):
 
 """ルーティングの作成"""
 @todo_bp.route("/", methods=["GET", "POST"])
+@login_required
 def get_todos():
   """Todoリストの一覧表示"""
   try:
     with db_session() as (current_todo_model, current_user_model):
       form=CreateNewTodos()
-      user_id = session.get("user_id")
+      user_id = current_user.id
       user =  current_user_model.select_user_by_id(user_id)
       
       if request.method == "POST" and form.validate_on_submit():
@@ -81,17 +83,31 @@ def get_todos():
     return render_template("auth/login.html", form=form)
 
 @todo_bp.route("/new", methods=["GET"])
+@login_required
 def create_todo():
   """Todoの新規作成"""
   form=CreateNewTodos()
   return render_template("todo/todos_new.html", form=form)
+
+def check_todo_owner(todo_id, user_id):
+    """ユーザーがTODOの所有者かどうかを確認"""
+    with db_session() as (current_todo_model, _):
+        todo = current_todo_model.select_todo_by_id(todo_id)
+        if todo is None:
+            return False
+        return todo.user_id == user_id
   
 
 @todo_bp.route("/<int:todo_id>", methods=["GET", "POST"])
+@login_required
 def detail_todo(todo_id):
   """Todoの詳細"""
   try: 
-    with db_session() as (current_todo_model, current_user_model):
+    if not check_todo_owner(todo_id, current_user.id):
+      flash("このTODOにアクセスする権限がありません", "danger")
+      return redirect(url_for('todos.get_todos'))
+          
+    with db_session() as (current_todo_model, _):
       update_form=UpdateTodos()
       
       if request.method == "POST" and update_form.validate_on_submit():
@@ -119,6 +135,7 @@ def detail_todo(todo_id):
     return redirect(url_for('todos.get_todos'))
 
 @todo_bp.route("/<int:todo_id>/edit", methods=["GET"])
+@login_required
 def edit_todo(todo_id):
   """Todoの編集"""
   try:
@@ -138,10 +155,11 @@ def edit_todo(todo_id):
 
 
 @todo_bp.route("/<int:todo_id>/delete", methods=["POST"])
+@login_required
 def delete_todo(todo_id: int):
   """削除処理"""
   try:
-    with db_session() as (current_todo_model, current_user_model):
+    with db_session() as (current_todo_model, _):
       current_todo_model.delete_todo_by_id(todo_id)
       
       return redirect(url_for("todos.delete_result_todo", todo_id=todo_id))
@@ -156,10 +174,11 @@ def delete_todo(todo_id: int):
   
   
 @todo_bp.route("/<int:todo_id>/delete/result", methods=["GET"])
+@login_required
 def delete_result_todo(todo_id: int):
   """削除処理の結果表示"""
   try:
-    with db_session() as (current_todo_model, current_user_model):
+    with db_session() as (current_todo_model, _):
       todo = current_todo_model.select_todo_by_id(todo_id)
     
       return render_template("todo/todos_delete_result.html", todo=todo)

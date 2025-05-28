@@ -9,7 +9,8 @@
   - POST /user/:id/delete
 """
 
-from flask import Blueprint, request, render_template, redirect, url_for, session, flash
+from flask import Blueprint, request, render_template, redirect, url_for, flash
+from flask_login import login_required
 from wtforms import StringField, TextAreaField, SubmitField, validators, PasswordField
 from wtforms.validators import DataRequired, InputRequired
 from flask_wtf import FlaskForm
@@ -34,10 +35,11 @@ class UpdateUserInfo(FlaskForm):
 
 """ルーティングの作成"""
 @user_bp.route("/<int:user_id>", methods=["GET", "POST"])
+@login_required
 def detail_user(user_id):
   """ユーザー情報の詳細"""
   try:
-    with db_session() as (current_todo_model, current_user_model):
+    with db_session() as (_, current_user_model):
       form = UpdateUserInfo()
 
       if request.method == "POST" and form.validate_on_submit():
@@ -65,10 +67,11 @@ def detail_user(user_id):
 
 
 @user_bp.route("/<int:user_id>/edit", methods=["GET"])
+@login_required
 def edit_user(user_id):
   """ユーザー情報の編集"""
   try:
-    with db_session() as (current_todo_model, current_user_model):
+    with db_session() as (_, current_user_model):
       form=UpdateUserInfo()
       user = current_user_model.select_user_by_id(user_id)
       
@@ -83,10 +86,11 @@ def edit_user(user_id):
     return redirect(url_for('user.detail_user'))
 
 @user_bp.route("/<int:user_id>/delete", methods=["POST"])
+@login_required
 def delete_user(user_id):  
   """ユーザー情報を論理削除"""
   try:
-    with db_session() as (current_todo_model, current_user_model):
+    with db_session() as (_, current_user_model):
       deleted_user = current_user_model.delete_user_by_id(user_id)
       if deleted_user:
         return redirect(url_for("auth.login"))

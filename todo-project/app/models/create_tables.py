@@ -4,11 +4,12 @@ from sqlalchemy.sql import text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.mysql import TINYINT as Tinyint
 from typing import List, Optional
+from flask_login import UserMixin
 
 from app.models.session import engine, Base
 
 # テーブルの作成
-class Users(Base):
+class Users(Base, UserMixin):
   __tablename__ = "users"
   __table_args__=({"mysql_charset": "utf8mb4"})
   id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -20,6 +21,14 @@ class Users(Base):
   deleted_at: Mapped[Optional[datetime]] = mapped_column(TIMESTAMP, nullable=True, server_default=None)
   
   todos: Mapped[List["Todos"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+  
+  def get_id(self):
+      # Flask-Login は内部的にユーザーID を文字列として扱う
+      return str(self.id)
+  
+  def is_active(self):
+      # 論理削除対応
+      return self.deleted_at is None
 
 
 class Todos(Base):

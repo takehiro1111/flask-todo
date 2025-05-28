@@ -12,11 +12,13 @@
   - GET /auth/logout
 """
 
-from flask import Blueprint, request, render_template, redirect, url_for, session, flash
+from flask import Blueprint, request, render_template, redirect, url_for, flash
+from flask_login import login_user, logout_user, login_required
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from urllib.parse import urlparse
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
 from utils.messages import FLASH_MESSAGES
@@ -44,7 +46,7 @@ class AuthLogin(FlaskForm):
 def register():
   """ユーザー登録"""
   try:
-    with db_session() as (current_todo_model, current_user_model):
+    with db_session() as (_, current_user_model):
       form=AuthRegister()
       
       if request.method == "POST" and form.validate_on_submit():
@@ -73,7 +75,7 @@ def register():
 def login():
   """ログイン処理"""
   try: 
-    with db_session() as (current_todo_model, current_user_model):
+    with db_session() as (_, current_user_model):
       form=AuthLogin()
       
       if request.method == "POST" and form.validate_on_submit():
@@ -83,8 +85,15 @@ def login():
         registered_user = current_user_model.select_user_for_login(email)
         
         if registered_user and check_password_hash(registered_user.password_hash, password):
-          session['user_id'] = registered_user.id 
-          session['user_name'] = registered_user.name 
+          # Flask-Loginの機能を使ってユーザーをログイン状態にする
+          login_user(registered_user)
+          
+          # リクエストパラメータから次のページを取得（ログイン要求元ページなど）
+          next_page = request.args.get('next')
+          if not next_page or urlparse(next_page).netloc != '':
+              next_page = url_for('todos.get_todos')
+          # session['user_id'] = registered_user.id 
+          # session['user_name'] = registered_user.name 
 
           return redirect(url_for("todos.get_todos"))
         else:
@@ -103,7 +112,9 @@ def login():
 
 
 @auth_bp.route("/logout", methods=["GET"])
+@login_required
 def logout():
   """ログアウト処理"""
-  session.clear()
-  return render_template("auth/logout.html")
+  logout_user()
+  flash(FLASH_MESSAGES["authentication"]["USER_LOGOUT_SUCCESS"])
+  return redirect(url_for('auth.login'))

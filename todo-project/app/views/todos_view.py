@@ -147,11 +147,11 @@ def edit_todo(todo_id):
 
   except ValueError as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
-    return redirect(url_for('todos.detail_todo'))
+    return redirect(url_for('todos.detail_todo', todo_id=todo_id))
       
   except (SQLAlchemyError, IntegrityError) as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
-    return redirect(url_for('todos.detail_todo'))
+    return redirect(url_for('todos.detail_todo', todo_id=todo_id))
 
 
 @todo_bp.route("/<int:todo_id>/delete", methods=["POST"])
@@ -166,11 +166,11 @@ def delete_todo(todo_id: int):
     
   except ValueError as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
-    return redirect(url_for('todos.detail_todo'))
+    return redirect(url_for('todos.detail_todo', todo_id=todo_id))
       
   except (SQLAlchemyError, IntegrityError) as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
-    return redirect(url_for('todos.detail_todo'))
+    return redirect(url_for('todos.detail_todo', todo_id=todo_id))
   
   
 @todo_bp.route("/<int:todo_id>/delete/result", methods=["GET"])
@@ -185,8 +185,8 @@ def delete_result_todo(todo_id: int):
   
   except ValueError as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
-    return redirect(url_for('todos.detail_todo'))
+    return redirect(url_for('todos.detail_todo', todo_id=todo_id))
       
   except (SQLAlchemyError, IntegrityError) as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
-    return redirect(url_for('todos.detail_todo'))
+    return redirect(url_for('todos.detail_todo', todo_id=todo_id))

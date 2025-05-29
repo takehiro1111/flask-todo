@@ -12,14 +12,11 @@ class User:
   # ユーザー情報の追加
   def insert_user(self, name: str, email: str, password_hash: str):
     """ユーザー情報を登録"""
-    try:
-      new_user = Users(name=name, email=email, password_hash=password_hash)
-      self.session.add(new_user)
-      
-      self.session.commit()
-      return new_user
-    except Exception as e:
-      print(f"Exception:{e}")
+    new_user = Users(name=name, email=email, password_hash=password_hash)
+    self.session.add(new_user)
+    
+    self.session.commit()
+    return new_user
     
   def select_user_for_login(self, email:str):    
     """ユーザー情報の取得"""

@@ -14,7 +14,7 @@
 
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -39,6 +39,7 @@ class AuthRegister(FlaskForm):
 class AuthLogin(FlaskForm):
   email = StringField("Eメールアドレス", validators=[DataRequired(), Email()])
   password = PasswordField("パスワード", validators=[DataRequired()])
+  remember = BooleanField("ログイン情報を保存する")
   submit = SubmitField("ログイン")
 
 
@@ -96,7 +97,7 @@ def login():
       
       if registered_user and check_password_hash(registered_user.password_hash, password):
         # Flask-Loginの機能を使ってユーザーをログイン状態にする
-        login_user(registered_user)
+        login_user(registered_user, remember=form.remember.data)
         
         # リクエストパラメータから次のページを取得（ログイン要求元ページなど）
         next_page = request.args.get('next')

@@ -28,8 +28,9 @@ def load_user(user_id):
 
 def create_app(app):
     app.config['SECRET_KEY'] = 'a_very_secret_key_for_development_only'
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
-    app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=14)
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
+    app.config['REMEMBER_COOKIE_DURATION'] = timedelta(hours=1)
+    app.config["REMEMBER_COOKIE_NAME"] = "remember_me_set_token"
     login_manager.init_app(app)
 
     # CLIコマンドを登録

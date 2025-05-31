@@ -15,6 +15,7 @@ python-dotenv = "*"
 cryptography = "*"
 email-validator = "*"
 flask-login = "*"
+flask-session = "*"
 
 [dev-packages]
 

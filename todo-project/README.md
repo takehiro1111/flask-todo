@@ -4,7 +4,7 @@
 pipenv install Flask
 ```
 
-## docker composeによるMySQLの利用
+## docker composeによるMySQL,mailhogの利用
 ```zsh
 # compose.yamlのカレントへ移動
 cd docker/db
@@ -22,6 +22,16 @@ docker compose stop
 
 # 削除
 docker compose down
+```
+
+## mailhogのブラウザアクセス
+```md
+- mailhog
+  - http://localhost:8025/#
+
+- ログイン画面
+  - http://localhost:3000/auth/login
+
 ```
 
 ## SQL Alchemyの操作

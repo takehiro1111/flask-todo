@@ -1,14 +1,16 @@
-import os
+import secrets
 
 from flask import Flask, g
 from flask_login import LoginManager
+from flask_mail import Mail
 from utils.logger import logger
 from datetime import timedelta
 
 flask_app = Flask(__name__)
+mail = Mail()
 
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+login_manager.login_view = "auth.login"
 login_manager.login_message = "このページにアクセスするにはログインが必要です。"
 login_manager.login_message_category = "warning"
 
@@ -27,10 +29,21 @@ def load_user(user_id):
         return None
 
 def create_app(app):
-    app.config['SECRET_KEY'] = 'a_very_secret_key_for_development_only'
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
-    app.config['REMEMBER_COOKIE_DURATION'] = timedelta(hours=1)
+    app.config["SECRET_KEY"] = secrets.token_hex(16)
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=1)
+    app.config["REMEMBER_COOKIE_DURATION"] = timedelta(hours=1)
     app.config["REMEMBER_COOKIE_NAME"] = "remember_me_set_token"
+    app.config["PASSWORD_RESET_SALT"] = "password-reset-salt"
+    
+    # mailhogの設定
+    app.config["MAIL_SERVER"] = "localhost" # Flaskのアプリケーションはlocalで実行しているため。
+    app.config["MAIL_PORT"] = 1025
+    app.config["MAIL_USE_TLS"] = False
+    app.config["MAIL_USE_SSL"] = False
+    app.config['MAIL_DEFAULT_SENDER'] = "noreply@example.com" # 送信用アドレスは適当。
+    
+    mail.init_app(app)
+    
     login_manager.init_app(app)
 
     # CLIコマンドを登録
@@ -55,10 +68,10 @@ def create_app(app):
 
     @app.teardown_appcontext
     def close_db_session(exception=None):
-        if hasattr(g, 'todo_model'):
+        if hasattr(g, "todo_model"):
             g.todo_model.session.close()
         
-        if hasattr(g, 'user_model'):
+        if hasattr(g, "user_model"):
             g.user_model.session.close()
 
     return app

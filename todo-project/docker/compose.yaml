@@ -9,5 +9,12 @@ services:
     volumes:
       - mysql-data2:/var/lib/mysql
 
+  mailhog:
+    image: mailhog/mailhog
+    platform: linux/amd64 # 使用時の環境によって適宜変更する必要がある。
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
 volumes:
   mysql-data2:

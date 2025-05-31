@@ -16,6 +16,7 @@ cryptography = "*"
 email-validator = "*"
 flask-login = "*"
 flask-session = "*"
+itsdangerous = "*"
 
 [dev-packages]
 

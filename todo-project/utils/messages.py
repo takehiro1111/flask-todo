@@ -8,7 +8,12 @@ FLASH_MESSAGES = {
         "USER_REGISTERED_ERROR": "ユーザー登録に失敗しました。再度入力してください。",
         "USER_LOGIN_ERROR": "メールアドレスまたはパスワードが間違っています。",
         "USER_LOGIN_EXCEPTION": "ログイン処理中にエラーが発生しました。",
-        "USER_LOGOUT_SUCCESS": "ログアウトしました。"
+        "USER_LOGOUT_SUCCESS": "ログアウトしました。",
+        "PASSWORD_RESET_EMAIL_SENT_SUCCESS": "パスワードリセット用のメールを送信しました。メールをご確認ください。",
+        "PASSWORD_RESET_EMAIL_SENT_FAILURE": "メールの送信に失敗しました。時間をおいて再度お試しください。",
+        "PASSWORD_RESET_INVALID_TOKEN": "無効なリクエスト、またはトークンの有効期限が切れています。", 
+        "PASSWORD_RESET_SUCCESS": "パスワードが更新されました。新しいパスワードでログインしてください。",
+        "PASSWORD_RESET_FAILURE": "パスワードの更新に失敗しました。",
     },
     "todos": {
         "CREATED_SUCCESS": "TODOの作成が完了しました。",
@@ -28,6 +33,12 @@ FLASH_MESSAGES = {
     "general": {
         "LOGIN_REQUIRED": "ログインしてください。"
     }
+}
+
+FLASH_CATEGORIES = {
+    "FAILURE": "failure",
+    "WARNING": "warning",
+    "SUCCESS": "success",
 }
 
 # --- Error Messages (for exceptions, typically logged or for internal use) ---
@@ -50,4 +61,15 @@ ERROR_MESSAGES = {
         "DELETE_FAILED": "ID:{}のTodo情報の削除に失敗しました。",
         "TODO_ID_NOT_FOUND": "Todo with id {} not found",
     }
+}
+
+MAIL_TEMPLATE = {
+    "password_reset":
+        """
+        パスワードをリセットするには、以下のリンクをクリックしてください:
+        {reset_url}
+
+        このリンクは1時間有効です。
+        もしこのリクエストに心当たりがない場合は、このメールを無視してください。
+        """
 }

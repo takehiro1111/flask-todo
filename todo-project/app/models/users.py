@@ -30,7 +30,7 @@ class User:
     self.session.commit()
     return new_user
     
-  def select_user_for_login(self, email:str):    
+  def select_user_by_email(self, email:str):    
     """ユーザー情報の取得"""
     return(
       self._base_query_by_email(email).first()
@@ -48,6 +48,18 @@ class User:
     
     if result == 0:
       raise ValueError(ERROR_MESSAGES["user_model"]["USER_ID_NOT_FOUND"].format(user_id))
+    
+    self.session.commit()
+    return result
+  
+  def reset_password_hash_by_email(self, email, mew_password_hash):
+    """ユーザー情報の更新"""
+    result = self._base_query_by_email(email).update({
+      Users.password_hash: mew_password_hash
+    }, synchronize_session=False)
+    
+    if result == 0:
+      raise ValueError(ERROR_MESSAGES["user_model"]["USER_ID_NOT_FOUND"].format(email))
     
     self.session.commit()
     return result

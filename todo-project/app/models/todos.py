@@ -9,10 +9,22 @@ class Todo:
   def __init__(self):
     self.session = SessionLocal()
     
-  def find_by_user(self, id):
+  def _base_query(self):
+    """selectの共通クエリ"""
+    return self.session.query(Todos).filter(Todos.deleted_at == None)
+  
+  def _base_query_by_user_id(self, user_id):
+    """user_idでfilterする場合"""
+    return self._base_query().filter(Todos.user_id == user_id)
+  
+  def _base_query_by_todo_id(self, todo_id):
+    """todo_idでfilterする場合"""
+    return self._base_query().filter(Todos.id == todo_id)
+    
+  def find_by_user(self, user_id):
     """ログイン時のTodoの取得"""
     return (
-      self.session.query(Todos).filter(Todos.user_id==id, Todos.deleted_at == None).all()
+      self._base_query_by_user_id(user_id).all()
     )
     
   def insert_todo(self, title, body, user_id):
@@ -24,16 +36,11 @@ class Todo:
     
   def select_todo_by_id(self, todo_id: int):
     """IDが一致するTodoの取得"""
-    return (
-      self.session.query(Todos).filter(Todos.id == todo_id, Todos.deleted_at == None).first()
-    )
+    return self._base_query_by_todo_id(todo_id).first()
     
   def update_todo_by_id(self,title, body, todo_id: int):
     """IDが一致するTodoの更新"""
-    result = self.session.query(Todos).filter(
-            Todos.id == todo_id,
-            Todos.deleted_at == None
-        ).update({
+    result = self._base_query_by_todo_id(todo_id).update({
             Todos.title: title,
             Todos.body: body,
             Todos.updated_at: datetime.now(ZoneInfo("Asia/Tokyo"))
@@ -47,10 +54,7 @@ class Todo:
     
   def delete_todo_by_id(self, todo_id: int):
     """IDが一致するTodoの論理削除"""
-    result = self.session.query(Todos).filter(
-            Todos.id == todo_id, 
-            Todos.deleted_at == None
-    ).update({
+    result = self._base_query_by_todo_id(todo_id).update({
             Todos.deleted_at: datetime.now(ZoneInfo("Asia/Tokyo"))
       }, synchronize_session=False)
     

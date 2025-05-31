@@ -4,21 +4,21 @@
 
 {% block body %}
   {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul>
-              {% for message in messages %}
-              <li>{{ message }}</li>
-              {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
+      {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
   <h1>ユーザー情報の編集</h1>
     <form method="POST" action="{{ url_for('user.detail_user', user_id=user.id) }}">
       {{ form.hidden_tag() }}
       <p>
-      {{ form.name.label }} <br>
-      {{ form.name(size=32) }}<br>
-      {% for error in form.name.errors %}
+      {{ form.username.label }} <br>
+      {{ form.username(size=32) }}<br>
+      {% for error in form.username.errors %}
         <span style="color: red;">[{{ error }}]</span>
       {% endfor %}
     </p>

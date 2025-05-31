@@ -40,6 +40,7 @@ ERROR_MESSAGES = {
         "UPDATE_FAILED": "ユーザー情報の更新に失敗しました。",
         "DELETE_FAILED": "ID:{}のユーザー情報の削除に失敗しました。",
         "USER_ID_NOT_FOUND": "User with id {} not found",
+        "INVALID_VALUE": "無効な値が渡されています。"
     },
     "todos_model": {
         "FETCH_FAILED": "Todo情報の取得に失敗しました。",

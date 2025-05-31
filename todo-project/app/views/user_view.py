@@ -12,7 +12,7 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_required
 from wtforms import StringField, TextAreaField, SubmitField, validators, PasswordField
-from wtforms.validators import DataRequired, InputRequired
+from wtforms.validators import DataRequired, InputRequired, Email
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
@@ -27,9 +27,9 @@ user_bp = Blueprint("user", __name__, url_prefix="/user", template_folder="templ
 
 """フォームの作成"""
 class UpdateUserInfo(FlaskForm):
-  name = StringField("名前", validators=[DataRequired(),validators.Length(min=4, max=25)])
-  email = TextAreaField("Eメールアドレス",validators=[InputRequired(), validators.Length(min=4, max=500)])
-  password = PasswordField("パスワード", validators=[DataRequired(),validators.Length(min=4, max=30)])
+  username = StringField("ユーザー名", validators=[DataRequired()])
+  email = StringField("Eメールアドレス", validators=[DataRequired(), Email()])
+  password = PasswordField("パスワード", validators=[DataRequired()])
   submit = SubmitField(label=("登録"))
 
 
@@ -41,28 +41,32 @@ def detail_user(user_id):
   try:
     with db_session() as (_, current_user_model):
       form = UpdateUserInfo()
-
-      if request.method == "POST" and form.validate_on_submit():
-        name = form.name.data
-        email = form.email.data
-        password_hash = generate_password_hash(form.password.data)
-        
-        current_user_model.update_user_by_id(user_id, name, email, password_hash)
-        
-        flash(FLASH_MESSAGES["users"]["UPDATED_SUCCESS"])
-        return redirect(url_for('user.detail_user', user_id=user_id))
-      
       user = current_user_model.select_user_by_id(user_id)
+      
+      if request.method == "POST":
+        if form.validate_on_submit():
+          username = form.username.data
+          email = form.email.data
+          password_hash = generate_password_hash(form.password.data)
+          
+          current_user_model.update_user_by_id(user_id, username, email, password_hash)
+          
+          flash(FLASH_MESSAGES["users"]["UPDATED_SUCCESS"])
+          return redirect(url_for('user.detail_user', user_id=user_id))
+        else:
+          flash('入力内容にエラーがあります。再度確認してください。')
+          return render_template("user/user_edit.html", form=form, user=user)
       
       return render_template("user/user_detail.html", user=user)
   
   except ValueError as e:
-    flash(FLASH_MESSAGES["users"]["INFO_FETCH_ERROR"])
-    logger.warning(f"ユーザー情報の取得エラー(ValueError): {e}")
+    flash(FLASH_MESSAGES["users"]["DELETE_FAILED"])
+    logger.error(f"ユーザー情報の取得エラー(ValueError): {e}")
     return redirect(url_for('todos.get_todos'))
       
   except (SQLAlchemyError, IntegrityError) as e:
-    flash(FLASH_MESSAGES["user_model"]["FETCH_FAILED"])
+    flash(FLASH_MESSAGES["users"]["DELETE_FAILED"])
+    logger.error(f"ユーザー情報の取得エラー(SQLAlchemyError, IntegrityError): {e}")
     return redirect(url_for('todos.get_todos'))
 
 
@@ -82,7 +86,7 @@ def edit_user(user_id):
     return redirect(url_for('user.detail_user'))
       
   except (SQLAlchemyError, IntegrityError) as e:
-    flash(FLASH_MESSAGES["user_model"]["FETCH_FAILED"])
+    flash(FLASH_MESSAGES["users"]["INFO_FETCH_ERROR"])
     return redirect(url_for('user.detail_user'))
 
 @user_bp.route("/<int:user_id>/delete", methods=["POST"])
@@ -99,9 +103,9 @@ def delete_user(user_id):
       return redirect(url_for("user.detail_user", user_id=user_id))
   
   except ValueError as e:
-    flash(FLASH_MESSAGES["users"]["INFO_FETCH_ERROR"])
+    flash(FLASH_MESSAGES["users"]["DELETE_FAILED"])
     return redirect(url_for('user.detail_user'))
       
   except (SQLAlchemyError, IntegrityError) as e:
-    flash(FLASH_MESSAGES["user_model"]["FETCH_FAILED"])
+    flash(FLASH_MESSAGES["users"]["DELETE_FAILED"])
     return redirect(url_for('user.detail_user'))

@@ -28,7 +28,8 @@ FLASH_MESSAGES = {
         "UPDATED_SUCCESS": "ユーザー情報を更新しました。",
         "DELETE_FAILED": "ユーザー情報の削除が出来ませんでした。",
         "INFO_FETCH_ERROR": "ユーザー情報の取得に失敗しました。",
-        "ID_NOT_FOUND": "ユーザーID {} の情報は見つかりませんでした。"
+        "ID_NOT_FOUND": "ユーザーID {} の情報は見つかりませんでした。",
+        "USER_SOFT_DELETE_SUCCESS": "ユーザー:{}の情報を削除しました。",
     },
     "general": {
         "LOGIN_REQUIRED": "ログインしてください。"

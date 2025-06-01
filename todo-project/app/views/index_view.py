@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash
+from flask import Blueprint, redirect, url_for
 
 """ブループリントの作成"""
 index_bp = Blueprint("index", __name__, template_folder="templates")

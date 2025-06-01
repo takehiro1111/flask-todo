@@ -33,13 +33,13 @@ todo_bp = Blueprint("todos", __name__, url_prefix="/todos", template_folder="tem
 
 """フォームの作成"""
 class CreateNewTodos(FlaskForm):
-  title = StringField("タイトル", validators=[DataRequired(),validators.Length(min=4, max=25)])
-  body = TextAreaField("内容",validators=[InputRequired(), validators.Length(min=4, max=500)])
+  title = StringField("タイトル", validators=[InputRequired(),validators.Length(min=4, max=25)])
+  body = TextAreaField("内容",validators=[DataRequired(), validators.Length(min=4, max=500)])
   submit = SubmitField(label=("登録"))
   
 class UpdateTodos(FlaskForm):
-  title = StringField("タイトル", validators=[DataRequired(),validators.Length(min=4, max=25)])
-  body = TextAreaField("内容",validators=[InputRequired(), validators.Length(min=4, max=500)])
+  title = StringField("タイトル", validators=[InputRequired(),validators.Length(min=4, max=25)])
+  body = TextAreaField("内容",validators=[DataRequired(), validators.Length(min=4, max=500)])
   submit = SubmitField(label=("修正"))
   
 class DeleteTodos(FlaskForm):
@@ -160,7 +160,7 @@ def delete_todo(todo_id: int):
   """削除処理"""
   try:
     with db_session() as (current_todo_model, _):
-      current_todo_model.delete_todo_by_id(todo_id)
+      current_todo_model.soft_delete_todo_by_id(todo_id)
       
       return redirect(url_for("todos.delete_result_todo", todo_id=todo_id))
     

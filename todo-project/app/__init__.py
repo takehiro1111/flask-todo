@@ -33,6 +33,8 @@ def create_app(app):
     app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=1)
     app.config["REMEMBER_COOKIE_DURATION"] = timedelta(hours=1)
     app.config["REMEMBER_COOKIE_NAME"] = "remember_me_set_token"
+    app.config["REMEMBER_COOKIE_SECURE"] = True
+    app.config["REMEMBER_COOKIE_HTTPONLY"] = True
     app.config["PASSWORD_RESET_SALT"] = "password-reset-salt"
     
     # mailhogの設定

@@ -11,8 +11,8 @@
 
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_required
-from wtforms import StringField, TextAreaField, SubmitField, validators, PasswordField
-from wtforms.validators import DataRequired, InputRequired, Email
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import InputRequired, Email
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
@@ -27,9 +27,9 @@ user_bp = Blueprint("user", __name__, url_prefix="/user", template_folder="templ
 
 """フォームの作成"""
 class UpdateUserInfo(FlaskForm):
-  username = StringField("ユーザー名", validators=[DataRequired()])
-  email = StringField("Eメールアドレス", validators=[DataRequired(), Email()])
-  password = PasswordField("パスワード", validators=[DataRequired()])
+  username = StringField("ユーザー名", validators=[InputRequired()])
+  email = StringField("Eメールアドレス", validators=[InputRequired(), Email()])
+  password = PasswordField("パスワード", validators=[InputRequired()])
   submit = SubmitField(label=("登録"))
 
 
@@ -95,8 +95,9 @@ def delete_user(user_id):
   """ユーザー情報を論理削除"""
   try:
     with db_session() as (_, current_user_model):
-      deleted_user = current_user_model.delete_user_by_id(user_id)
+      deleted_user = current_user_model.soft_delete_user_by_id(user_id)
       if deleted_user:
+        flash(FLASH_MESSAGES["users"]["USER_SOFT_DELETE_SUCCESS"].format(deleted_user.name))
         return redirect(url_for("auth.login"))
       
       flash(FLASH_MESSAGES["users"]["DELETE_FAILED"])

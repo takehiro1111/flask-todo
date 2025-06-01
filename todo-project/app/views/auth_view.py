@@ -15,7 +15,7 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import InputRequired, Email, EqualTo
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
@@ -36,25 +36,25 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/auth", template_folder="templ
 
 """フォームの作成"""
 class AuthRegister(FlaskForm):
-  username = StringField("ユーザー名", validators=[DataRequired()])
-  email = StringField("Eメールアドレス", validators=[DataRequired(), Email()])
-  password = PasswordField("パスワード", validators=[DataRequired()])
+  username = StringField("ユーザー名", validators=[InputRequired()])
+  email = StringField("Eメールアドレス", validators=[InputRequired(), Email()])
+  password = PasswordField("パスワード", validators=[InputRequired()])
   submit = SubmitField("登録")
   
 class AuthLogin(FlaskForm):
-  email = StringField("Eメールアドレス", validators=[DataRequired(), Email()])
-  password = PasswordField("パスワード", validators=[DataRequired()])
+  email = StringField("Eメールアドレス", validators=[InputRequired(), Email()])
+  password = PasswordField("パスワード", validators=[InputRequired()])
   remember = BooleanField("ログイン情報を保存する")
   submit = SubmitField("ログイン")
   
 class InputEmail(FlaskForm):
-  email = StringField("Eメールアドレス", validators=[DataRequired(), Email()])
+  email = StringField("Eメールアドレス", validators=[InputRequired(), Email()])
   submit = SubmitField("送信")
   
 class ResetPassword(FlaskForm):
-  new_password = PasswordField("新しいパスワード", validators=[DataRequired()])
+  new_password = PasswordField("新しいパスワード", validators=[InputRequired()])
   new_password_match = PasswordField("確認用", [
-        DataRequired(),
+        InputRequired(),
         EqualTo("new_password", message="パスワードの入力が一致している必要があります。")
     ])
   submit = SubmitField("リセット")

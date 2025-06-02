@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}削除結果{% endblock %}
+
+{% block body %}
+  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+  <h1>削除結果</h1>
+    <ul>
+    {% if todo %}
+      <p>{{ todo.title }}の削除処理が完了しました。</p>
+    {% endif %}
+    </ul>
+  
+  <p><a href="{{ url_for('todos.get_todos') }}">Todo一覧へ戻る</a></p>
+{% endblock %}

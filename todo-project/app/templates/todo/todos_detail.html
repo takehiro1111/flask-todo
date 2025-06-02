@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}詳細{% endblock %}
+
+{% block body %}
+  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+  <h1>TODO:{{ todo.title }}の詳細</h1>
+  <h3>内容</h3>
+    <p>
+      {{ todo.body }}
+    </p>
+  <form method="GET" action="{{ url_for('todos.edit_todo', todo_id=todo.id) }}">
+    <input type="submit" value="編集">
+  </form>
+  <form method="POST", action="{{ url_for('todos.delete_todo', todo_id=todo.id) }}">
+    <input type="submit" value="削除" onclick="return confirm('本当に削除しますか？');">
+  </form>
+  <p><a href="{{ url_for('todos.get_todos') }}">一覧へ戻る</a></p>
+{% endblock %}

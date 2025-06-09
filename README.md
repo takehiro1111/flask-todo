@@ -62,9 +62,3 @@ pipenv shell
 exit
 
 ```
-
-# Flask
-### 1.[インストール](https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/installation.html#install-flask)
-```bash
-pipenv install Flask
-```

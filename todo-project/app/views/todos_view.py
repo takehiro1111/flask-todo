@@ -206,7 +206,7 @@ def export_csv():
       
       string_io = io.StringIO()
       
-      fieldnames = ["id", "title", "body", "status"]
+      fieldnames = ["id", "title", "description", "status"]
       
       with string_io as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)

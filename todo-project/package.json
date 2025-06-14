@@ -1,0 +1,16 @@
+{
+  "name": "todo-project",
+  "version": "1.0.0",
+  "description": "```bash pipenv install Flask ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.25.5"
+  }
+}

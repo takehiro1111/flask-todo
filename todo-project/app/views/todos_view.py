@@ -18,7 +18,10 @@
     - 削除結果の画面表示
 """
 
-from flask import Blueprint, request, render_template, redirect, url_for, flash
+import csv
+import io
+
+from flask import Blueprint, request, render_template, redirect, url_for, flash, Response, jsonify
 from flask_login import login_required, current_user
 from wtforms import StringField, TextAreaField, SubmitField, validators
 from wtforms.validators import DataRequired, InputRequired
@@ -26,7 +29,7 @@ from flask_wtf import FlaskForm
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
 from app.models.session import db_session
-from utils.messages import FLASH_MESSAGES
+from utils.messages import FLASH_MESSAGES, ERROR_MESSAGES
 
 """ブループリントの作成"""
 todo_bp = Blueprint("todos", __name__, url_prefix="/todos", template_folder="templates")
@@ -190,3 +193,92 @@ def delete_result_todo(todo_id: int):
   except (SQLAlchemyError, IntegrityError) as e:
     flash(FLASH_MESSAGES["todos"]["FETCH_FAILED"])
     return redirect(url_for('todos.detail_todo', todo_id=todo_id))
+
+
+@todo_bp.route("/export_csv", methods=["GET","POST"])
+@login_required
+def export_csv():
+  """DBからtodoデータを取得し、CSVででエクスポートを行う"""
+  try: 
+    with db_session() as (current_todo_model, _):
+      user_id = current_user.id
+      todos = current_todo_model.find_by_user(user_id)
+      
+      string_io = io.StringIO()
+      
+      fieldnames = ["id", "title", "body", "status"]
+      
+      with string_io as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()      
+        for todo in todos:
+          writer.writerow({
+              fieldnames[0]: todo.id,
+              fieldnames[1]: todo.title,
+              fieldnames[2]: todo.body,
+              fieldnames[3]: "完了" if todo.is_completed == 1 else "未完了"
+          })
+
+        csv_data = string_io.getvalue()
+        return Response(
+            csv_data,
+            mimetype='text/csv',
+            headers={'Content-Disposition': 'attachment;filename=todos.csv'}
+        )
+    
+  except ValueError as e:
+    flash(FLASH_MESSAGES["todos"]["FETCH_ERROR"])
+    return redirect(url_for('todos.get_todos'))
+    
+  
+@todo_bp.route('/import_csv', methods=["GET", "POST"])
+@login_required
+def import_csv():
+    """csvライブラリでCSVをパースしてDBに登録してTodoとして表示する"""
+    try:
+      if 'file' not in request.files:
+          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["not_upload_csv_file"]), 400
+          
+      file = request.files['file']
+      
+      if file.filename == '':
+          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["file_not_selected"]), 400
+          
+      if not file.filename.endswith('.csv'):
+          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["not_a_csv_file"]), 400
+      
+      # ファイルの内容を文字列として読み込む
+      stream = io.StringIO(file.stream.read().decode('utf-8'))
+      
+      with db_session() as (current_todo_model, _):
+          reader = csv.DictReader(stream)
+          
+          # ユーザーIDを取得
+          user_id = current_user.id
+          imported_todos = []
+
+          for row in reader:
+              # titleが必須なのでチェック
+              if not row.get('title'):
+                  continue
+                  
+              # current_todo_modelを使い、user_idを渡す
+              todo = current_todo_model.insert_todo(
+                  title=row.get('title'),
+                  body=row.get('description', ''),
+                  user_id=user_id
+              )
+              imported_todos.append(todo)
+          
+          new_tasks_data = [
+              {'id': todo.id, 'title': todo.title} for todo in imported_todos
+          ]
+
+          return jsonify(
+              success=True, 
+              message=f"{len(new_tasks_data)}件のタスクをインポートしました。",
+              new_tasks=new_tasks_data
+          )
+
+    except Exception as e:
+        return jsonify(success=False, message=f"{ERROR_MESSAGES["csv"]["processing_error"]} {e}"), 500

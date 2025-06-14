@@ -61,6 +61,12 @@ ERROR_MESSAGES = {
         "UPDATE_FAILED": "ID:{}のTodo情報の獲得に失敗しました。",
         "DELETE_FAILED": "ID:{}のTodo情報の削除に失敗しました。",
         "TODO_ID_NOT_FOUND": "Todo with id {} not found",
+    },
+    "csv": {
+        "not_upload_csv_file": "ファイルがアップロードされていません。",
+        "file_not_selected": "ファイルが選択されていません。",
+        "not_a_csv_file": "CSVファイルを選択してください。",
+        "processing_error": "処理中にエラーが発生しました:",
     }
 }
 

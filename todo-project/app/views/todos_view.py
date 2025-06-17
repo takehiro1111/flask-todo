@@ -246,39 +246,41 @@ def import_csv():
           
       if not file.filename.endswith(".csv"):
           return jsonify(success=False, message=ERROR_MESSAGES["csv"]["not_a_csv_file"]), 400
+        
       
-      # ファイルの内容を文字列として読み込む
       stream = io.StringIO(file.stream.read().decode("utf-8"))
+      reader = csv.DictReader(stream)
+      errors = []
+      todos_to_insert = []
+      
+      for index, row in enumerate(reader, start=2):
+          if not row.get("title"):
+              errors.append(index)
+              continue
+          
+          todos_to_insert.append({
+              "title": row.get("title"),
+              "description": row.get("description", ""),
+              "user_id": current_user.id
+          })
+
+      if errors:
+          return jsonify(success=False, message=f"CSVの{errors}行のタイトルが空です。", errors=errors), 400
       
       with db_session() as (current_todo_model, _):
-          reader = csv.DictReader(stream)
-          
-          # ユーザーIDを取得
-          user_id = current_user.id
-          imported_todos = []
-
-          for row in reader:
-              # titleが必須なのでチェック
-              if not row.get("title"):
-                  continue
-                  
-              # current_todo_modelを使い、user_idを渡す
-              todo = current_todo_model.insert_todo(
-                  title=row.get("title"),
-                  body=row.get("description", ""),
-                  user_id=user_id
-              )
-              imported_todos.append(todo)
-          
-          new_tasks_data = [
-              {"id": todo.id, "title": todo.title} for todo in imported_todos
-          ]
-
-          return jsonify(
-              success=True, 
-              message=f"{len(new_tasks_data)}件のタスクをインポートしました。",
-              new_tasks=new_tasks_data
-          )
+        imported_todos = current_todo_model.bulk_insert_todos(todos_to_insert)
+        
+        new_tasks_data = [
+            {"id": todo.id, "title": todo.title} for todo in imported_todos
+        ]
+        
+        response_data = {
+            "success": True,
+            "message": f"タスクをインポートしました。",
+            "new_tasks": new_tasks_data,
+        }
+        
+        return jsonify(response_data)
 
     except Exception as e:
         return jsonify(success=False, message=f"{ERROR_MESSAGES["csv"]["processing_error"]} {e}"), 500

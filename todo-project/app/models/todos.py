@@ -26,6 +26,15 @@ class Todo:
     self.session.add(new_record)      
     self.session.commit()
     return new_record
+  
+  def bulk_insert_todos(self, todos_data):
+    """import処理時のデータ一括挿入"""    
+    new_records = [
+      Todos(title=data.get("title"), body=data.get("description", ""), user_id=data.get("user_id")) for data in todos_data
+    ]
+    self.session.add_all(new_records)      
+    self.session.commit()
+    return new_records
     
   def select_todo_by_id(self, todo_id: int):
     """IDが一致するTodoの取得"""

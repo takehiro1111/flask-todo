@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const importFile = document.getElementById("import-file");
 
   exportBtn.addEventListener("click", () => {
-    const originalButtonText = exportBtn.textContent
-    exportBtn.disabled = true
-    exportBtn.textContent = "エクスポート処理中..."
+    const originalButtonText = exportBtn.textContent;
+    exportBtn.disabled = true;
+    exportBtn.textContent = "エクスポート処理中...";
 
     fetch(exportUrl)
       .then((response) => {
@@ -44,9 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("CSVファイルのエクスポートに失敗しました。");
       })
       .finally(() => {
-          exportBtn.disabled = false
-          exportBtn.textContent = originalButtonText
-      })
+        exportBtn.disabled = false;
+        exportBtn.textContent = originalButtonText;
+      });
   });
 
   importBtn.addEventListener("click", () => {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((error) => {
           console.error("Error", error);
           alert("CSVインポートに失敗しました。");
-        })
+        });
     }
 
     // changeイベントを前回と同じファイルを選択しても発火させたいため。

@@ -63,10 +63,11 @@ ERROR_MESSAGES = {
         "TODO_ID_NOT_FOUND": "Todo with id {} not found",
     },
     "csv": {
-        "not_upload_csv_file": "ファイルがアップロードされていません。",
-        "file_not_selected": "ファイルが選択されていません。",
-        "not_a_csv_file": "CSVファイルを選択してください。",
-        "processing_error": "処理中にエラーが発生しました:",
+        "NOT_UPLOAD_CSV": "ファイルがアップロードされていません。",
+        "FILE_NOT_SELECTED": "ファイルが選択されていません。",
+        "NOT_A_CSV_FILE": "CSVファイルを選択してください。",
+        "PROCESSING_ERROR": "処理中にエラーが発生しました:",
+        "FAILED_BULK_INSERT":"bulk_insert_todosのメソッド処理が失敗しました。",
     }
 }
 

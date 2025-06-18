@@ -195,7 +195,7 @@ def delete_result_todo(todo_id: int):
     return redirect(url_for("todos.detail_todo", todo_id=todo_id))
 
 
-@todo_bp.route("/export_csv", methods=["GET","POST"])
+@todo_bp.route("/export_csv", methods=["GET"])
 @login_required
 def export_csv():
   """DBからtodoデータを取得し、CSVででエクスポートを行う"""
@@ -231,21 +231,21 @@ def export_csv():
     return redirect(url_for("todos.get_todos"))
     
   
-@todo_bp.route("/import_csv", methods=["GET", "POST"])
+@todo_bp.route("/import_csv", methods=["POST"])
 @login_required
 def import_csv():
     """csvライブラリでCSVをパースしてDBに登録してTodoとして表示する"""
     try:
       if "file" not in request.files:
-          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["not_upload_csv_file"]), 400
+          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["NOT_UPLOAD_CSV"]), 400
           
       file = request.files["file"]
       
       if file.filename == "":
-          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["file_not_selected"]), 400
+          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["FILE_NOT_SELECTED"]), 400
           
       if not file.filename.endswith(".csv"):
-          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["not_a_csv_file"]), 400
+          return jsonify(success=False, message=ERROR_MESSAGES["csv"]["NOT_A_CSV_FILE"]), 400
         
       
       stream = io.StringIO(file.stream.read().decode("utf-8"))
@@ -265,7 +265,7 @@ def import_csv():
           })
 
       if errors:
-          return jsonify(success=False, message=f"CSVの{errors}行のタイトルが空です。", errors=errors), 400
+          return jsonify(success=False, message=f"CSVでタイトルが空のデータがあります。", errors=errors), 400
       
       with db_session() as (current_todo_model, _):
         imported_todos = current_todo_model.bulk_insert_todos(todos_to_insert)
@@ -281,6 +281,7 @@ def import_csv():
         }
         
         return jsonify(response_data)
+        
 
     except Exception as e:
-        return jsonify(success=False, message=f"{ERROR_MESSAGES["csv"]["processing_error"]} {e}"), 500
+        return jsonify(success=False, message=f"{ERROR_MESSAGES["csv"]["PROCESSING_ERROR"]} {e}"), 500

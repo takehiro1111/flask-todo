@@ -264,3 +264,18 @@ def import_csv():
 
     except Exception as e:
         return jsonify(success=False, message=f"{ERROR_MESSAGES["csv"]["PROCESSING_ERROR"]} {e}"), 500
+
+
+@todo_bp.route("/import_status/<task_id>")
+@login_required
+def import_status(task_id):
+    from app.tasks.import_todos import process_csv_import
+    result = process_csv_import.AsyncResult(task_id)
+    if result.state == "PENDING":
+        return jsonify(status="processing")
+    elif result.state == "SUCCESS":
+        return jsonify(status="done", result=result.result)
+    elif result.state == "FAILURE":
+        return jsonify(status="error", message=str(result.info))
+    else:
+        return jsonify(status=result.state)

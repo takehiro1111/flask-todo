@@ -68,7 +68,24 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((data) => {
           alert(data.message);
           if (data.success) {
-            location.reload();
+            const taskId = data.task_id;
+            const interval = setInterval(() => {
+              fetch(`/todos/import_status/${taskId}`)
+                .then((res) => res.json())
+                .then((statusData) => {
+                  if (statusData.status === "done") {
+                    clearInterval(interval);
+                    alert("インポート完了！");
+                    location.reload();
+                  } else if (statusData.status === "error") {
+                    clearInterval(interval);
+                    alert("インポート失敗: " + statusData.message);
+                  }
+                  // else: 処理中
+                });
+            }, 2000);
+          } else {
+            alert(data.message);
           }
         })
         .catch((error) => {

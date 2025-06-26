@@ -54,6 +54,13 @@ cd {path_to_your_dir}/menta-flask-todo/todo-project
 flask run --debug
 ```
 
+## CSVを非同期でimportするためにceleryのワーカーを起動する。
+### flask runとは別プロセスで同時に起動しておく。
+```zsh
+cd {path_to_your_dir}/menta-flask-todo/todo-project
+celery -A app.tasks.import_todos worker --loglevel=info
+```
+
 ## 機能
 ### TODO
 #### API仕様

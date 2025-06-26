@@ -30,6 +30,7 @@ from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
 from app.models.session import db_session
 from utils.messages import FLASH_MESSAGES, ERROR_MESSAGES
+from app.tasks.import_todos import process_csv_import
 
 """ブループリントの作成"""
 todo_bp = Blueprint("todos", __name__, url_prefix="/todos", template_folder="templates")
@@ -248,39 +249,17 @@ def import_csv():
           return jsonify(success=False, message=ERROR_MESSAGES["csv"]["NOT_A_CSV_FILE"]), 400
         
       
-      stream = io.StringIO(file.stream.read().decode("utf-8"))
-      reader = csv.DictReader(stream)
-      errors = []
-      todos_to_insert = []
+      file_content = file.stream.read().decode("utf-8")
+        
+      task = process_csv_import.delay(file_content, current_user.id)
       
-      for index, row in enumerate(reader, start=2):
-          if not row.get("title"):
-              errors.append(index)
-              continue
-          
-          todos_to_insert.append({
-              "title": row.get("title"),
-              "description": row.get("description", ""),
-              "user_id": current_user.id
-          })
-
-      if errors:
-          return jsonify(success=False, message=f"CSVでタイトルが空のデータがあります。", errors=errors), 400
+      response_data = {
+        "success": True,
+        "message": "CSVファイルのインポート処理を開始しました。完了までしばらくお待ちください。",
+        "task_id": task.id
+      }
       
-      with db_session() as (current_todo_model, _):
-        imported_todos = current_todo_model.bulk_insert_todos(todos_to_insert)
-        
-        new_tasks_data = [
-            {"id": todo.id, "title": todo.title} for todo in imported_todos
-        ]
-        
-        response_data = {
-            "success": True,
-            "message": f"タスクをインポートしました。",
-            "new_tasks": new_tasks_data,
-        }
-        
-        return jsonify(response_data)
+      return jsonify(response_data), 202
         
 
     except Exception as e:

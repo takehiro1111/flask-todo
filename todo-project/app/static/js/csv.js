@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     clearInterval(interval);
                     alert("インポート失敗: " + statusData.message);
                   }
-                  // else: 処理中
                 });
             }, 2000);
           } else {

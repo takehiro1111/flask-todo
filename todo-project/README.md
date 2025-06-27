@@ -54,6 +54,11 @@ cd {path_to_your_dir}/menta-flask-todo/todo-project
 flask run --debug
 ```
 
+### `redis`のインストール
+```zsh
+brew install redis
+```
+
 ## CSVを非同期でimportするためにceleryのワーカーを起動する。
 ### flask runとは別プロセスで同時に起動しておく。
 ```zsh

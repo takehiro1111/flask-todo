@@ -1,4 +1,5 @@
 import io
+import os
 import csv
 from celery import Celery
 
@@ -6,8 +7,8 @@ from app import create_app
 
 celery_app = Celery(
     'csv_importer',
-    broker='redis://localhost:6379/0',
-    backend='redis://localhost:6379/0'
+    broker=os.environ.get("REDIS_URL"),
+    backend=os.environ.get("REDIS_URL")
 )
 
 @celery_app.task

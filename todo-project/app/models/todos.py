@@ -1,6 +1,8 @@
+from sqlalchemy.exc import SQLAlchemyError
 from app.models.session import SessionLocal
 from app.models.create_tables import Todos
 from utils.messages import ERROR_MESSAGES
+
 
 class Todo:
   def __init__(self):
@@ -23,9 +25,29 @@ class Todo:
   def insert_todo(self, title, body, user_id):
     """Todoの新規作成"""
     new_record = Todos(title=title, body=body, user_id=user_id)
-    self.session.add(new_record)      
-    self.session.commit()
-    return new_record
+    
+    try:
+      self.session.add(new_record) 
+      self.session.commit()
+      return new_record
+
+    except SQLAlchemyError as e:
+      self.session.rollback()
+      raise e
+  
+  def bulk_insert_todos(self, todos_data):
+    """import処理時のデータ一括挿入"""    
+    new_records = [
+      Todos(title=data.get("title"), body=data.get("description", ""), user_id=data.get("user_id")) for data in todos_data
+    ]
+    try:
+      self.session.add_all(new_records)      
+      self.session.commit()
+      return new_records
+    
+    except SQLAlchemyError as e:
+      self.session.rollback()
+      raise e
     
   def select_todo_by_id(self, todo_id: int):
     """IDが一致するTodoの取得"""

@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 requests = "==2.32.3"
 boto3 = "==1.35.97"
-flask = "*"
 wtforms = "*"
 flask-wtf = "*"
 sqlalchemy = "*"
@@ -17,6 +16,10 @@ email-validator = "*"
 flask-login = "*"
 flask-session = "*"
 itsdangerous = "*"
+flask = "*"
+celery = "*"
+redis = "*"
+flask-mail = "*"
 
 [dev-packages]
 

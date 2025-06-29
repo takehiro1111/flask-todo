@@ -22,8 +22,21 @@
       {% endfor %}
     {% endif %}
     </ul>
+
+  <div 
+    class="controls" 
+    data-export-url="{{ url_for('todos.export_csv') }}" 
+    data-import-url="{{ url_for('todos.import_csv') }}"
+  >
+    <button id="export-btn">CSVエクスポート</button>
+    
+    <input type="file" id="import-file" accept=".csv" style="display: none;">
+    <button id="import-btn">CSVインポート</button>
+  </div>
   
   <p><a href="{{ url_for('todos.create_todo') }}">Todoの新規作成</a></p>
     <p><a href="{{ url_for('user.detail_user',user_id=current_user_id) }}">ユーザー情報</a></p>
   <p><a href="{{ url_for('auth.logout') }}">ログアウト</a></p>
+
+  <script type="module" src="{{ url_for('static', filename='js/csv.js') }}"></script>
 {% endblock %}

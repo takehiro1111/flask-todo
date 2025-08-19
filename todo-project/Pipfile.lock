@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "563e3aea46c896f5f2d8fdce48e6504ad7b5ac68cd71c891f25498104b39a1db"
+            "sha256": "8eec6c9f73c28f6a81a526278f550da1a6dc93e188aed986443f5c3cdb78a1c2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:3c3d6731390b5b11f5e489d5d9daa57f0c3e171efb63ac8f47203df9c71812b3",
-                "sha256:c6b32aee193fbd2eb84696d2b5b2410dcda9fb4a385e1926cff908377d222247"
+                "sha256:7ff74221328868c5f7dcd7a9b959e7b882c1ab1b04cc9df868ea70de7d8bd004",
+                "sha256:b43110b6ad30e683fab769b4c5659b6b0606afa535627de831f7181306009d5e"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==1.40.12"
+            "version": "==1.40.13"
         },
         "botocore": {
             "hashes": [
-                "sha256:84e96004a8b426c5508f6b5600312d6271364269466a3a957dc377ad8effc438",
-                "sha256:c6560578e799b47b762b7e555bd9c5dd5c29c5d23bd778a8a72e98c979b3c727"
+                "sha256:5bf7334d6a0a87a907d607b115710bede2440376cefa8c33b0d99571fb226d87",
+                "sha256:d7003526a9169e8ab3566db2227cf0b85d9e689e9ff97f2803c629a8e4624fb5"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==1.40.12"
+            "version": "==1.40.13"
         },
         "cachelib": {
             "hashes": [
@@ -335,12 +335,12 @@
         },
         "flask": {
             "hashes": [
-                "sha256:07aae2bb5eaf77993ef57e357491839f5fd9f4dc281593a81a9e4d79a24f295c",
-                "sha256:284c7b8f2f58cb737f0cf1c30fd7eaf0ccfcde196099d24ecede3fc2005aa59e"
+                "sha256:bf656c15c80190ed628ad08cdfd3aaa35beb087855e2f494910aa3774cc4fd87",
+                "sha256:ca1d8112ec8a6158cc29ea4858963350011b5c846a414cdb7a954aa9e967d03c"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==3.1.1"
+            "version": "==3.1.2"
         },
         "flask-login": {
             "hashes": [

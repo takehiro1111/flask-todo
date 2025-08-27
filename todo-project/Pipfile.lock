@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dabb193d874dc51faa0e8cc7973ba4522d6fc1f259da6f7a07ad7999d8bde998"
+            "sha256": "a2aad76b3b29db928ea6e156acff86df75e60450034a2d9acded915fbb462b8b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:64301d39adecc154e3e595eaf0d4f28998ef0a5551f1d033aeac51a9e1a688e5",
-                "sha256:daa776ba1251a7458c9d6c7627873d0c2460c8e8272d35759065580e9193700a"
+                "sha256:772f259fdef6efa752c5744e140c0371593a20a0c728cce91d67b8b58d1090e7",
+                "sha256:9cdf01576fae6cb12b71fd6b793f34876feafa962cdaf3a9489253580355fc60"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==1.40.18"
+            "version": "==1.40.19"
         },
         "botocore": {
             "hashes": [
-                "sha256:57025c46ca00cf8cec25de07a759521bfbfb3036a0f69b272654a354615dc45f",
-                "sha256:afd69bdadd8c55cc89d69de0799829e555193a352d87867f746e19020271cc0f"
+                "sha256:6a7c2ceaf8ed3321cf4bc15420dad4e778263d3b480c86f7fd9da982e1deaa64",
+                "sha256:becc101b3047ec4cffa6c86bab747b8312db20529ee0132fe77007092a9c9f85"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==1.40.18"
+            "version": "==1.40.19"
         },
         "cachelib": {
             "hashes": [
@@ -598,11 +598,11 @@
         },
         "prompt-toolkit": {
             "hashes": [
-                "sha256:52742911fde84e2d423e2f9a4cf1de7d7ac4e51958f648d9540e0fb8db077b07",
-                "sha256:931a162e3b27fc90c86f1b48bb1fb2c528c2761475e57c9c06de13311c7b54ed"
+                "sha256:28cde192929c8e7321de85de1ddbe736f1375148b02f2e17edd840042b1be855",
+                "sha256:9aac639a3bbd33284347de5ad8d68ecc044b91a762dc39b7c21095fcd6a19955"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==3.0.51"
+            "version": "==3.0.52"
         },
         "pycparser": {
             "hashes": [

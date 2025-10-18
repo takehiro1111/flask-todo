@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 requests = "==2.32.5"
-boto3 = "==1.40.54"
+boto3 = "==1.40.55"
 wtforms = "*"
 flask-wtf = "*"
 sqlalchemy = "*"

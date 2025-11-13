@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5ac8af41c32b8807587996718040c27a82b7c5a9fddab0ec17f22d530a779b22"
+            "sha256": "811a9e452ed3dc12b0e230178906a5b933d9c441ec73ffd2867fc62512ffb7f7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:4ac9ee8d1629e45d6b6adc727795d1fc9852e998cd1a73e4eda50f6120677bab",
-                "sha256:6d38e0250154552658be92a62cd48adf8ca8fd4abc181fb52d13371b53179503"
+                "sha256:1063a295712f2605d3e463e4dc1fe32fce17cf77a0f4d3bb14249d68533ee856",
+                "sha256:58d30dd5e046789a760db7a49f817650b8ff08d8d169e127976a61f44b7c59ad"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==1.40.71"
+            "version": "==1.40.72"
         },
         "botocore": {
             "hashes": [
-                "sha256:4c05907b2a56b1f6fd70403fbae0f09a4758b95758192db5ff93c0e9940a11bb",
-                "sha256:7ed28c2e092fc0d67fbfba818fbdccc92426b452cc936bf034db6de717e0d068"
+                "sha256:4f859e5aaf871fe59aac431d6bba59cc0c8ed8a38da2a6a5345700bdc5c74b32",
+                "sha256:f69199ff6570695556e733fa052f2739e01e0c592c9b60f843f84c77ba3bcdf3"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==1.40.71"
+            "version": "==1.40.72"
         },
         "cachelib": {
             "hashes": [
@@ -77,11 +77,11 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:0f212c2744a9bb6de0c56639a6f68afe01ecd92d91f14ae897c4fe7bbeeef0de",
-                "sha256:47c09d31ccf2acf0be3f701ea53595ee7e0b8fa08801c6624be771df09ae7b43"
+                "sha256:97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b",
+                "sha256:d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==2025.10.5"
+            "version": "==2025.11.12"
         },
         "cffi": {
             "hashes": [

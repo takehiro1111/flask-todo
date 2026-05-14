@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = "==2.34.1"
+requests = "==2.34.2"
 boto3 = "==1.43.8"
 wtforms = "*"
 flask-wtf = "*"

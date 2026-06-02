@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "06ac78e2e984875ebb0e5f4fb4829692eed5e286f81d37b5859a26b79f69f09d"
+            "sha256": "20c65efb0b49a3bb02a15ee978af6f5c287f707b6bc73023cfb7be3bb26dd5d2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:33138883e984eb1937d1553da699182c8ad2099138091e885b65c9accbccea16",
-                "sha256:7b62ce5c0a51428d692aa4f2adc9dc2a4a4c2989bf65a0a12834eeffa99b0b84"
+                "sha256:8b84704719dd3960ac12a8f37d9ff5adb853715baa9742f84fdbe2de0305c4cb",
+                "sha256:ec6825193b75fbb6bfbf12181e4960d00ad2f404343586765394ce620e63783c"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.18"
+            "version": "==1.43.19"
         },
         "botocore": {
             "hashes": [
-                "sha256:dc8c105351b49688c667065cd5a45fc5b9db982657cefc9e3fbfb9417a55c7df",
-                "sha256:e2610fce16df9f89deab5f3c163430a814e6804034eb95bef8957c8db60b7dbc"
+                "sha256:18ac2fdd76c89b940707eb10493ff58678adad337d03215caec2d408ccd43cc0",
+                "sha256:99dbdccbf748974750601e805cecc9362a85d11fee89d6d58cd3f4ff302e6ff9"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.18"
+            "version": "==1.43.19"
         },
         "cachelib": {
             "hashes": [
@@ -544,11 +544,11 @@
         },
         "idna": {
             "hashes": [
-                "sha256:466e48829084efe2548012b855df21540b96f2e20e51bd124c851536556a592c",
-                "sha256:5eb0cb53bc467c12eadcf6de83163ad8527cec9416f44b9b61b19caedad2b87f"
+                "sha256:7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2",
+                "sha256:ffb385a7e039654cef1ab9ef32c6fafe283c0c0467bba1d9029738ce4a14a848"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==3.17"
+            "version": "==3.18"
         },
         "itsdangerous": {
             "hashes": [

@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: mysql:8.4@sha256:d2c60b1b225c6d7845f0abdb596fc35c2d4122bcad6ec219588035a118f75d93
+    image: mysql:9.7@sha256:ad88e1c86cbf12ef52d0a0360cd4b774d22956c5ee9c565645fb019d7aacb6c3
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: fk_todos

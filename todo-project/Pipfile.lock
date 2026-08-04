@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f71fb27b75a8cd09baea69e7ee5f5d441399342472e9724b922976ce3da82cb3"
+            "sha256": "5fc8a47df108ebec2a5a2ca5ed0740409471fb1aab2a5ffdf593e81bd6866a16"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:647c0f0b59710ce12a49323382bb5ece1b4e02199c736d19d555330dca7e947f",
-                "sha256:859a8d1c50505a5cefb8629790dd34602ddb85bfd7ea5d34a362ab1793513636"
+                "sha256:2b555e63ece57cffb1ab1666fa6c23a0957e61f9d19ea8424d6c884124c3fd98",
+                "sha256:fc7522c3ed97d38176e0b1366406bca0fc8c888ae8d416bf953477b3f015a7b2"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.63"
+            "version": "==1.43.64"
         },
         "botocore": {
             "hashes": [
-                "sha256:854e45247f00b0732496ea1f0c5d0cf3c31d58b48eb052c31c27ab1087dfddf1",
-                "sha256:8deed86feacc8f8d2491f1d170562af191f8b33924052d834f4217d5d797e5a9"
+                "sha256:a2bb131f48111094fae0a2c896b42593797e935d9c22abb2ebae4290c6dbb5ea",
+                "sha256:f0a01c47d631ab95589c244566bca971294724b21862de1c12c7c3b0de236272"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.63"
+            "version": "==1.43.64"
         },
         "cachelib": {
             "hashes": [
@@ -712,11 +712,11 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e",
-                "sha256:ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661"
+                "sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79",
+                "sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
             ],
-            "markers": "python_version >= '3.8'",
-            "version": "==26.2"
+            "markers": "python_version >= '3.9'",
+            "version": "==26.3"
         },
         "prompt-toolkit": {
             "hashes": [

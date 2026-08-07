@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c9edef2cd4c60a824298348d90583927895ad2fd4f38de019ae8924d648f3a9f"
+            "sha256": "262b7fd5094d3721a76f7261b25e7dba75a51e1a0f0aff2ae83cbbcee00703d6"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,28 +43,28 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:8d097a41e2f545c25252105570f782bb035b1ac13d6213c772d1c895dc7cedeb",
-                "sha256:ffc77129a4e5519bdbd9b278e4fe9e6276c9d951e0d2b60d626977bdb957cb38"
+                "sha256:082cf9df068168cb44028a1703822374c1eb7e48fa49470d7e8a76f0c977d0bc",
+                "sha256:75fe983b70d39cfdc274dc51f9bb02b8a0a104bdad4fa073c1af85a35e707c91"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.66"
+            "version": "==1.43.67"
         },
         "botocore": {
             "hashes": [
-                "sha256:0fa62529579469a9224c186eba87e7e561db87dfad20c63ce5d52e427c7fa325",
-                "sha256:dde324cbe8be14b536b78f4fafe192f94fffcc70716bde804044e62495af8c3c"
+                "sha256:48ab8e9fac26fbc2a700d57010251003e6a5f731cf74d8540fb796bc8f3fc0ef",
+                "sha256:6fe5cfa0c8676ba809efe505b618ec00f30d1af2d014bf316a7aa4ee86accb20"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.66"
+            "version": "==1.43.67"
         },
         "cachelib": {
             "hashes": [
-                "sha256:14a226c9856a48f1666cdb107fc4573171c1c820cb3fd2528a57f81fde8170e5",
-                "sha256:40a387c42d12e90c8a1a2cb87dedcc34fd9143a5b2c7f2daed3d4c56ebf7bdfc"
+                "sha256:41adb53d11594b1a9874789dc0fdbc83e63d3d7c0d9de54faea026008aa75d32",
+                "sha256:618d8df297cf63b36529129f70c84bfc0ce522dc2cfb24a152b1ac73fa54f9b6"
             ],
             "markers": "python_version >= '3.11'",
-            "version": "==0.15.0"
+            "version": "==0.15.2"
         },
         "celery": {
             "hashes": [

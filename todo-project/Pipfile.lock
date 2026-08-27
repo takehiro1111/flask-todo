@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7981f49a1458eb1e11edaf0de830be045d951110065dbc1682f8193d7dc89134"
+            "sha256": "34f538db254d43eef2ab4996a30bdc524e067ab5fa5abc958296c15bc921b23f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:26afe3b950ca1cc722c7fa5544991c222919c98355f82300a55b6315a2c4995e",
-                "sha256:384d522e2ce722266afceea8ab3e618e16695b358ebe32b45e0a2109fcd53a28"
+                "sha256:62ecf695088e06f37500d6cc49a240dc1331379bd5ae992d185fef212038ca29",
+                "sha256:6e24f98974400a3845223bba77f457be92517f78e2cffadfa273e18ea1fe1944"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.80"
+            "version": "==1.43.81"
         },
         "botocore": {
             "hashes": [
-                "sha256:461bce2159eadd758d0651d2a11dced3450169383e6ca8ef65f5c250f8b7ebd4",
-                "sha256:c021e60df26d17e9a8db05fa5071669449c8fd15e0fb4374f56a6c17d553f89b"
+                "sha256:49eb02dac7eb4418ae589dc0da816d47bf40be1a7ccfdbed5f772c7a2efcf64d",
+                "sha256:a5d343674b63a619b7f1f3caef4eedb403500c7a8b95a9e7d8cac98b95501adb"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.80"
+            "version": "==1.43.81"
         },
         "cachelib": {
             "hashes": [
@@ -369,11 +369,11 @@
         },
         "click": {
             "hashes": [
-                "sha256:9a6cea6e60b17ebe0a44c5cc636d94f09bd66142c1cd7d8b4cd731c4917a15f6",
-                "sha256:e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76"
+                "sha256:255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360",
+                "sha256:ba0d2089de75ea0310e2dde03160e6ca10009947fb95a182f9b54021bb272e34"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==8.4.2"
+            "version": "==8.5.0"
         },
         "click-didyoumean": {
             "hashes": [

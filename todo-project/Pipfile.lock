@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "798fa285be1b69bf6da860908b1961997ef33bfeb30aa70835d672e876ff076e"
+            "sha256": "c018732f92d70361adc5bb936deb810cc31a95dadf7d03177e0fb698977f1507"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:0251b67d99cc0e7b958db48e7dd149094d453377fcd03299fde7329f975db2e6",
-                "sha256:74b811e6def4b30d685d4539a9ead3796f0e03a2112f00134e0f5e583ad8b098"
+                "sha256:5ae342a16c848909cd42d4be404f69d9082e5705460198d4d3327eca5f6cddcb",
+                "sha256:c79994619c8d89e45f6fd0edc5c5b5a70c9358f00423f4c99cb64931f89ecf37"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.110"
+            "version": "==1.43.111"
         },
         "botocore": {
             "hashes": [
-                "sha256:888cd54d59502e2195dac30805e5c08dd1be5416932a3793373e81b8f463e006",
-                "sha256:9f5ae5685b4d7129e32f6084ae8683d5857a1d60d77528b8da77bb53b9dff48f"
+                "sha256:44d5e80962ac6cb9e85af72667b77c9586451e3328ab0ce33195380767e213d8",
+                "sha256:f1f4c28cb2a096bf246d0bb24cbb1a01c5cb696ef499fa71b155adda7b94c90b"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.110"
+            "version": "==1.43.111"
         },
         "cachelib": {
             "hashes": [
@@ -466,11 +466,11 @@
         },
         "dnspython": {
             "hashes": [
-                "sha256:01d9bbc4a2d76bf0db7c1f729812ded6d912bd318d3b1cf81d30c0f845dbf3af",
-                "sha256:181d3c6996452cb1189c4046c61599b84a5a86e099562ffde77d26984ff26d0f"
+                "sha256:9a4aedb833c3c1b49214d04d44d3032ab7a9135f7c1d29a549b4ff78fd82fda9",
+                "sha256:b44dc6b18f07a8b1c56676a19fbfdb5209415b046a9cece286baafa87ff3f7f1"
             ],
-            "markers": "python_version >= '3.10'",
-            "version": "==2.8.0"
+            "markers": "python_version >= '3.11'",
+            "version": "==2.9.0"
         },
         "email-validator": {
             "hashes": [
@@ -830,11 +830,11 @@
         },
         "pycparser": {
             "hashes": [
-                "sha256:b3fc6dec06a8b2fefa0ed4ff92285306a5e3be9987bc5603c9edbdc4e492418f",
-                "sha256:f09d358c840bd147b79e55f2bc494f18ea869dc897f5852a8f5766b74f787882"
+                "sha256:51d5a8ba2be0bbe440b99d2112604c95bbbc3c2748a64260186c541e1729cd80",
+                "sha256:d875f09c3507d00e1aba0eecc6dcadc1352f30fff09dc6bff2f1c2935e97c2bc"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==3.1"
+            "version": "==3.11"
         },
         "pymysql": {
             "hashes": [

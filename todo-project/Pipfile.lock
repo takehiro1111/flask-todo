@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7517b41eaee472fc50a7baf89c588f48566d3a804190413ecaf2c137f5e71dc4"
+            "sha256": "f43ce64027b9c643d57dd2f14347ac54e66eb8e7a12b4233b42ce409e88c5973"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:62edd40fdeef6523ee2f73f4ccbe754fde79200ad0763bd86f4422e8125b2735",
-                "sha256:7f330e53e274a0b8e5982ed3dd4cec9e7e932cf48306c08db8b9e880d09c5c63"
+                "sha256:101fe3ee99664e671efb9af65c8e98ec0bceddf6de922ea89685da4adc8c6907",
+                "sha256:5a635a0fbbd51f319e465b809cf043668705defbb9dddaf26ae66747f70b2a49"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.124"
+            "version": "==1.43.125"
         },
         "botocore": {
             "hashes": [
-                "sha256:4651bac68d1aef78d42c8aefb514a6cd86fda07971b8348652a9d24f21b07965",
-                "sha256:6df80235995e2926e0768e7ad270e774adcd6ff0307da7ab87ffb8c384edb578"
+                "sha256:e3969c8191d3435440037310187d324f37c00da53987ea31df2eceff19a2795a",
+                "sha256:e3ae5ebbfa8033015958a9cb16cef67a0592902ca8afb46ef06e8ae77475183f"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.124"
+            "version": "==1.43.125"
         },
         "cachelib": {
             "hashes": [
@@ -68,12 +68,12 @@
         },
         "celery": {
             "hashes": [
-                "sha256:0808f42f80909c4d5833202360ffafb2a4f83f4d8e23e1285d926610e9a7afa6",
-                "sha256:177006bd2054b882e9f01be59abd8529e88879ef50d7918a7050c5a9f4e12912"
+                "sha256:18310a9c919f9029e4735367484d93e6a25cdfd30afdc474622cc263d9b35f6e",
+                "sha256:6a5dfcf6662287204f009a02002b9e66c83d4105e47ebabdc7079108772fc6f0"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.9'",
-            "version": "==5.6.3"
+            "markers": "python_version >= '3.10'",
+            "version": "==5.7.0"
         },
         "certifi": {
             "hashes": [

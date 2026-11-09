@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "88d8ea2bfce398458cc1f53af2a5a7a410e3a70c456129155998a7e128f8945b"
+            "sha256": "b6de28eaa60b9c51449c54012a5f2213b81202b25d033f363a15a695dd5d9d40"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,20 +43,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:5fda4a3dd2782c134a01d1678911962c2860dd8de8cd10bef168ba1507b371a9",
-                "sha256:dd701a973b02a73930e546a6a15d13edbfbedc3180bb3d55b0a88678c284ccd6"
+                "sha256:47f87f89b10e62f5191bd98674beb0dd52ed368c19fcdfef2ef38ead31126f49",
+                "sha256:b5417e81d439b35ccf3a1eb51fa06cf9c97167c9a6beaa1929175ee9840d505a"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.126"
+            "version": "==1.43.127"
         },
         "botocore": {
             "hashes": [
-                "sha256:2f2239a47025a2fa173cd145ab8803ac02b76114864bf5b66475ff1cb88e6b0a",
-                "sha256:96996af07d8b703c3cdf44863f69c0b4b8b2d1cb6976c641986ced3e38c072f3"
+                "sha256:93bae360fb3a6f1b8e36593faa8bbbfa05b19866f7a37e9606a98f13394156f8",
+                "sha256:aa0e3188679a2164a2098a14ea9b59520520cb573aaee9999d852480691e134a"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.126"
+            "version": "==1.43.127"
         },
         "cachelib": {
             "hashes": [
@@ -830,12 +830,12 @@
         },
         "pymysql": {
             "hashes": [
-                "sha256:14f1c68e2ed859243ae5ca41ffbe677027fc46bc136a9f0be8a4e928e5e7415a",
-                "sha256:d5b288529782e536ae171866df3ca9dc4f6cbfb3cc2f18e6f837fbb90dbc262b"
+                "sha256:491558165b8e11f3644c5f9cfb30cc9c9111ffd54e53d3aa91b9a0a20be2294f",
+                "sha256:e169bed906168fffd0088925f45b3df024c2775c6fd128da0df773d47c458840"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==1.2.3"
+            "version": "==1.2.4"
         },
         "python-dateutil": {
             "hashes": [
